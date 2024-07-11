@@ -49,10 +49,36 @@ function userAgent() {
       return android;
     }
   }
-  const ua1 = `Mozilla/5.0 (Linux, Android ${version}; ${randomize("xxx-xxx").toUpperCase()}; Build/${randomize("xP1A.xxxxxx.0x6").toUpperCase()}; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/107.0.5304.36 Mobile Safari/537.36[FBAN/EMA;FBLC/en_US;FBAV/415.0.0.2.100;])`;
+  const ua1 = `Mozilla/5.0 (Linux, Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Build/${randomize("xP1A.xxxxxx.0x6").toUpperCase()}; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/107.0.5304.36 Mobile Safari/537.36[FBAN/EMA;FBLC/en_US;FBAV/415.0.0.2.100;])`;
   const ua2 = `Mozilla/5.0 (Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Mobile; rv:61.0) Gecko/61.0 Firefox/68.0`;
   return [ua1, ua2];
 } 
+function randomize(neth) {
+  let _=Math.random()*12042023;
+  return neth.replace(/[xy]/g,c=>{
+    let __=Math.random()*16; 
+    __=(__+_)%16|0;_=Math.floor(_/16);
+    return[(c==='x'?__:(__&0x3|0x8)).toString(16)].map((_)=>Math.random()<.6?_:_.toUpperCase()).join('');
+  });
+}
+
+function dummyCookie() {
+  return
+    `datr=${randomize("xxxxxxxxxxx_xxxxxxxxxxxx")};` +
+    `sb=${randomize("xxxxxxxxxxxxxx-xxxxxxxxx")};` +
+    `m_pixel_ratio=1.5;` +
+    `ps_n=1;` +
+    `ps_l=1;` +
+    `locale=en_US;` +
+    `wd=360x520;` +
+    `fr=${randomize("xxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx..xxx.A.A.xxxxx.xxxxxxxxxxx")};` +
+    `c_user=1000${Math.floor(Math.random()*91251604995)};` +
+    `xs=32%3An2wXMy3811cnYA%3A2%3A${Math.floor(Math.random()*1713515009)}%3A-1%3A-1;` +
+    `vpd=v1%3B520x360x1.5;` +
+    `fbl_st=${Math.floor(Math.random()*100000000)}%3BT%3A20002000;` +
+    `wl_cbv=v2%3Bclient_version%3A2547%3Btimestamp%3A17198225555`;
+}
+
 
 
 
@@ -127,7 +153,7 @@ app.get('/share', async (req, res) => {
 
 app.get('/token', async (req, res) => {
   const {
-    u,p
+    user,pass
   } = req.query;
   
   if (!u || !p){
@@ -342,17 +368,11 @@ app.get("/comment", async(req, res) => {
 
 app.get("/dummycookie", async(req, res) => {
   const cookie = dummyCookie();
-  if (!cookie) return res.json({
-    cookie: "Failed to generate."
-  });
   return res.json({ cookie });
 });
 
 app.get("/useragent", async(req, res) => {
   const ua = userAgent();
-  if (!ua) return res.json({
-    error: "Failed to generate."
-  });
   return res.json({
     ua,
   });
@@ -565,32 +585,6 @@ async function getPostID(url) {
   } catch (error) {
     return;
   }
-}
-
-function randomize(neth) {
-  let _=Math.random()*12042023;
-  return neth.replace(/[xy]/g,c=>{
-    let __=Math.random()*16; 
-    __=(__+_)%16|0;_=Math.floor(_/16);
-    return[(c==='x'?__:(__&0x3|0x8)).toString(16)].map((_)=>Math.random()<.6?_:_.toUpperCase()).join('');
-  });
-}
-
-function dummyCookie() {
-  return
-    `datr=${randomize("xxxxxxxxxxx_xxxxxxxxxxxx")};` +
-    `sb=${randomize("xxxxxxxxxxxxxx-xxxxxxxxx")};` +
-    `m_pixel_ratio=1.5;` +
-    `ps_n=1;` +
-    `ps_l=1;` +
-    `locale=en_US;` +
-    `wd=360x520;` +
-    `fr=${randomize("xxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx..xxx.A.A.xxxxx.xxxxxxxxxxx")};` +
-    `c_user=1000${Math.floor(Math.random()*91251604995)};` +
-    `xs=32%3An2wXMy3811cnYA%3A2%3A${Math.floor(Math.random()*1713515009)}%3A-1%3A-1;` +
-    `vpd=v1%3B520x360x1.5;` +
-    `fbl_st=${Math.floor(Math.random()*100000000)}%3BT%3A20002000;` +
-    `wl_cbv=v2%3Bclient_version%3A2547%3Btimestamp%3A17198225555`;
 }
 
 app.listen(port, () => {

@@ -63,8 +63,7 @@ function randomize(neth) {
 }
 
 function dummyCookie() {
-  return
-    `datr=${randomize("xxxxxxxxxxx_xxxxxxxxxxxx")};` +
+  const sarap = `datr=${randomize("xxxxxxxxxxx_xxxxxxxxxxxx")};` +
     `sb=${randomize("xxxxxxxxxxxxxx-xxxxxxxxx")};` +
     `m_pixel_ratio=1.5;` +
     `ps_n=1;` +
@@ -77,10 +76,15 @@ function dummyCookie() {
     `vpd=v1%3B520x360x1.5;` +
     `fbl_st=${Math.floor(Math.random()*100000000)}%3BT%3A20002000;` +
     `wl_cbv=v2%3Bclient_version%3A2547%3Btimestamp%3A17198225555`;
+   return sarap;
 }
 
 
+app.use(__dirname+"/public");
 
+app.get("/", (req, res) => {
+  return res.sendFile(__dirname+"/public/index.html");
+})
 
 app.get('/shares', (req, res) => {
  const data = Array.from(total.values()).map((link, index) => ({
@@ -96,12 +100,6 @@ return res.json(jsob);
 
 app.get("/cdata", (req, res) => {
 return res.json(JSON.parse(JSON.stringify(collectedData, null, 2)));
-});
-app.get('/', (req, res) => {
- return res.json({
-   status: "Running",
-   creator: "Neth"
- })
 });
 
 function extract(link) {
@@ -125,7 +123,7 @@ app.get('/share', async (req, res) => {
     interval,
   } = req.query;
   if (!cookie || !url || !amount || !interval) return res.status(400).json({
-    error: 'Missing state, url, amount, or interval'
+    error: 'Missing token, url, amount, or interval'
   });
   try {
     if (!cookie) {
@@ -317,16 +315,29 @@ app.get("/ai", async(req, res) => {
     model, system, user
   } = req.query;
   const wie = require("./wiegine_ai");
-  await wie.cfai(model, system, user).then(neth => {
+  await wie.cfai(model, system, user, false).then(neth => {
     if (neth.msg){
     return res.json(neth);
-    } else {
-     res.writeHead(200, {
-       "Content-Type": "image/png"
-     });
-     res.end(neth);
-     return;
     }
+  }).catch(error => {
+    return res.json({
+      msg: "Something went wrong",
+      status: false,
+    });
+  })
+});
+
+app.get("/cfimg", async(req, res) => {
+  const {
+    model, user
+  } = req.query;
+  const wie = require("./wiegine_ai");
+  await wie.cfai(model, "", user, true).then(neth => {
+    res.writeHead(200, {
+      "Content-Type": "image/png"
+    });
+    res.end(neth);
+    return;
   }).catch(error => {
     return res.json({
       msg: "Something went wrong",

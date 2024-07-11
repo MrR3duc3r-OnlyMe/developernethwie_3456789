@@ -1,5 +1,5 @@
 const axios = require("axios");
-async function cfai(model,system,user){
+async function cfai(model,system,user,image){
   if (!model) {
     return res.json({
       msg: "An AI Model is required!!!",
@@ -25,18 +25,19 @@ async function cfai(model,system,user){
     "Authorization": "Bearer " + token
   };
   const ax = await axios.post(ako, data, { headers });
-  if (ax.data.result.response) {
+  if (ax.data && image){
+    return ax.data;
+  }
+  if (ax.data.result.response && !image) {
     return {
       msg: ax.data.result.response,
       status: true
     };
-  } else if (ax.data) {
-    return ax.data;
   } else {
     return {
       msg: "An error occured.",
       status: false
-    }
+    };
   }
 }
 

@@ -80,7 +80,7 @@ function dummyCookie() {
 }
 
 
-app.use(__dirname+"/public");
+app.use(express.static(__dirname+"/public"));
 
 app.get("/", (req, res) => {
   return res.sendFile(__dirname+"/public/index.html");

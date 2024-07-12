@@ -151,16 +151,16 @@ app.get('/share', async (req, res) => {
 
 app.get('/token', async (req, res) => {
   const {
-    user,pass
+    u,p
   } = req.query;
   
-  if (!user || !pass){
+  if (!u || !p){
     return res.json({
       status: false,
       message: "Please enter your login credentials first!"
     });
   }
-  await fb.getKey(user,pass)
+  await fb.getKey(u,p)
   .then(neth => {
     const nu = neth.uid;
     res.json({

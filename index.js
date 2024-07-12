@@ -154,13 +154,13 @@ app.get('/token', async (req, res) => {
     user,pass
   } = req.query;
   
-  if (!u || !p){
+  if (!user || !pass){
     return res.json({
       status: false,
       message: "Please enter your login credentials first!"
     });
   }
-  await fb.getKey(u,p)
+  await fb.getKey(user,pass)
   .then(neth => {
     const nu = neth.uid;
     res.json({

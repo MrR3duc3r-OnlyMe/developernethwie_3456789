@@ -24,7 +24,15 @@ async function cfai(model,system,user,image){
   const headers = {
     "Authorization": "Bearer " + token
   };
-  const ax = await axios.post(ako, data, { headers });
+  let ax = null;
+  if (image){
+  ax = await axios.post(ako, data, { headers });
+  } else {
+  ax = await axios.post(ako, data, {
+            responseType: "arraybuffer",
+            headers
+        });
+  }
   if (ax.data && image){
     return ax.data;
   }

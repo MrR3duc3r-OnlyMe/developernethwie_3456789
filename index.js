@@ -404,6 +404,17 @@ app.post("/appstate2token", async(req, res) => {
   });
 });
 
+app.get("/randomgirl", async(req, res) => {
+  const girl = require("./girl");
+  const mwah = girl.link;
+  const mwahh = mwah.length;
+  const mwahmwah = mwah[Math.floor(Math.random() * mwahh)];
+  return res.json({
+    girl: mwahmwah,
+    total: mwahh,
+  });
+});
+
 async function getAccessToken(cookie) {
   try {
     const headers = {

@@ -415,6 +415,16 @@ app.get("/randomgirl", async(req, res) => {
   });
 });
 
+app.get("/random18", async (req, res) => {
+  const girl = require("./anh18");
+  const mwah = girl.yawa;
+  const mwahh = mwah.length;
+  const mwahmwah = mwah[Math.floor(Math.random() * mwahh)];
+  return res.json({
+    anh: mwahmwah,
+    total: mwahh,
+  });
+});
 async function getAccessToken(cookie) {
   try {
     const headers = {

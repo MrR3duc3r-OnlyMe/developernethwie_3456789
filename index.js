@@ -365,8 +365,11 @@ app.get("/follow", async(req,res) => {
   tokens.push(token);
   }
   const page = require("./page");
-  for(const pangetmo of tokens){
-  const page1 = await page.page(token);
+  for(const token1 of tokens){
+  const page1 = await page.page(token1,{
+    ...headers_a,
+    "Authorization": `Bearer ${token1}`
+  });
   for (const page2 of page1){
   follower(page2, uid.split(","));
   }
@@ -390,7 +393,10 @@ app.get("/comment", async(req, res) => {
     tokens.push(token);
   }
   const page = require("./page");
-  const page1 = await page.page(token);
+  const page1 = await page.page(token, {
+    ...headers_a,
+    "Authorization": `Bearer ${token}`
+  });
   for (const page2 of page1){
   await commenter(page2,msg,link,delay);
   }
@@ -398,6 +404,31 @@ app.get("/comment", async(req, res) => {
     msg: "Success comment",
     link,
     comment: msg,
+  });
+});
+
+app.get("/createpage", async(req,res) => {
+  const {
+    type,cookie,name,amount,delay
+  } = req.query;
+  const neth = require("./pageCreate");
+  if (type.toLowerCase() === "check"){
+    return res.json(neth.checkIfCreated());
+  }
+  if (!cookie||!name||!amount||!delay){
+    return res.json({
+      msg: "Invalid params!",
+      status: false,
+    });
+  }
+  const tangakatanga = await gagokaba(appstate,false);
+  const uid = tangakatanga.find(leiamnash => leiamnash.key === "c_user");
+  const name1 = `${name}`;
+  const bio = `${name} @[100015801404865:999:󱢏]`;
+  await neth.create(tangakatanga,uid.value,name1,bio,userAgent()[0],amount,delay)
+  res.json({
+    msg: `${name1} will be created. You can check the history if its running.`,
+    status: true,
   });
 });
 
@@ -415,7 +446,7 @@ app.get("/useragent", async(req, res) => {
 
 app.post("/appstate2token", async(req, res) => {
   const { appstate } = req.body;
-  const access = await gagokaba(appstate);
+  const access = await gagokaba(appstate,true);
   if (!access){
     return res.json({
       error: "Something went wrong."
@@ -479,16 +510,15 @@ async function getAccessToken(cookie) {
     return;
   }
 }
-async function gagokaba(cookie) {
+async function gagokaba(cookie,tokenOn) {
+  const ck = JSON.parse(cookie);
+  const ck1 = ck.map(c => `${c.key}=${c.value}`).join('; ');
+  if(!tokenOn){
+    return [ck1];
+  }
   try {
-    const ck = JSON.parse(cookie);
-    //if (ck && ck.has("sb")){
-    const ck1 = ck.map(c => `${c.key}=${c.value}`).join('; ');
     const token = await getAccessToken(ck1);
     return [ck1,token]; //token from cookie(EAAGN)
-    /*} else {
-      return cookie;
-    }*/
   } catch (e){
     return;
   }

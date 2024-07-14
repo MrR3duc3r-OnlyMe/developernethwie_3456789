@@ -107,7 +107,7 @@ container.onclick = () => {
     background: "#141A25 url(dg.svg)"
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = "/" + endpoint;
+      window.location.href = endpoint;
     }
   });
 };
@@ -123,29 +123,29 @@ async function tryandtry(){
     <br>— The param 'model' is a worker AI model. (check here)
     <br>— The param 'system' is your desired prompt (optional).
     <br>— The param 'user' is your desired question or query.`,
-    "ai?model=@cf/meta/llama-3-8b-instruct&system=You are a friendly chatbot.&user=Hello, what model are you?"
+    "/ai?model=@cf/meta/llama-3-8b-instruct&system=You are a friendly chatbot.&user=Hello, what model are you?"
   );
   add(
     "Workers AI(Image)",
     `Powered by Cloudflare Workers AI.<br>
     <br>— The param 'model' is a Worker AI model.
     <br>— The param 'prompt' is your desired prompt.`,
-    "cfimg?model=@cf/stabilityai/stable-diffusion-xl-base-1.0&user=couple"
+    "/cfimg?model=@cf/stabilityai/stable-diffusion-xl-base-1.0&user=couple"
   );
   add(
     "WiegineAI",
     `Talk to Wiegine (Neth's gf)— but an AI.`,
-    "ai?model=wiegine&user=hello"
+    "/ai?model=wiegine&user=hello"
   );
   add(
     "Fetch all AI Models(Plain Text)",
     `Fetch all Workers AI models.`,
-    "ai?list=plain"
+    "/ai?list=plain"
   );
   add(
     "Fetch all AI Models(Json)",
     `Fetch all Workers AI models.`,
-    "ai?list=all"
+    "/ai?list=all"
   );
   add(
     "Spam share",
@@ -157,7 +157,7 @@ async function tryandtry(){
     "Access token Getter",
     `Retrieve your Facebook login credentials' token.
     <br>EAAD6V7, EAAAAU, EAAAAAY`,
-    "token?u=example@login.com&p=Example123"
+    "/token?u=example@login.com&p=Example123"
   );
   add(
     "Appstate to Cookie&Token",
@@ -173,7 +173,7 @@ async function tryandtry(){
   add(
     "Random dummy Cookie",
     `Generates a random dummy Facebook cookie.`,
-    "/dummycookie"
+    "dummycookie"
   );
   add(
     "Random girl Picture",
@@ -228,7 +228,7 @@ async function tryandtry(){
    memory,uptime
   } = await res.json();
   document.getElementById('checkm').innerHTML = 
-  `${memory}<br>Running in ${uptime}.`;
+  `${memory}<br>Server is running well.`;
   }, 3*1000);
 }
 tryandtry();

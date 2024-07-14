@@ -93,7 +93,7 @@ app.get("/cpuptime", async(req,res) => {
   return res.json({
       running: os.uptime(),
       cpu: os.cpus(),
-      memory: `${os.freemem()+"MB"} available of ${os.totalmem()+"MB"}`
+      memory: `${os.freemem()+" MB"} available of ${os.totalmem()+" MB"}`
     });
 })
 
@@ -716,7 +716,7 @@ process.on("unhandledRejection", async(reason, p) => {
   await t.send(
 `Unhandled Rejection sent from NethWieAPI
 ISSUE:
-${JSON.stringify(reason,null,4)}
+${reason.toString()}
 ==========
 Neth`
   )

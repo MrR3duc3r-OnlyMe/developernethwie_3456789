@@ -120,5 +120,7 @@ async function cfai(model,system,user,image){
 }
 
 module.exports = {
-  cfai
+  cfai,
+  getAiItems,
+  getType
 };

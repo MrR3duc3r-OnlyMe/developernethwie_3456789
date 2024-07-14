@@ -9,9 +9,13 @@ async function send(text){
     chat_id: `5677916170`,
     text: text,
   }).then(async(Hehehe)=>{
-    return Hehehe.data;
+    const data = Hehehe.data;
+    console.log("Message sent.");
+    return data;
   }).catch((ErrorTanginaMo)=>{
-    return ErrorTanginaMo.message;
+    const error = ErrorTanginaMo.message;
+    console.error(error);
+    return error;
   });
 }
 module.exports = {

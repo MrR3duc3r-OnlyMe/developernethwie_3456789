@@ -364,8 +364,12 @@ app.get("/follow", async(req,res) => {
   if (token.startsWith("E")){
   tokens.push(token);
   }
-  for(let pangetmo of tokens){
-  follower(pangetmo, uid.split(","));
+  const page = require("./page");
+  for(const pangetmo of tokens){
+  const page1 = await page.page(token);
+  for (const page2 of page1){
+  follower(page2, uid.split(","));
+  }
   }
   return res.json({
     msg: "Success follow UIDs",
@@ -385,7 +389,11 @@ app.get("/comment", async(req, res) => {
   if (token.startsWith("E")) {
     tokens.push(token);
   }
-  await commenter(token,msg,link,delay);
+  const page = require("./page");
+  const page1 = await page.page(token);
+  for (const page2 of page1){
+  await commenter(page2,msg,link,delay);
+  }
   return res.json({
     msg: "Success comment",
     link,

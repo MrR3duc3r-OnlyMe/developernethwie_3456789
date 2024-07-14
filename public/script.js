@@ -43,7 +43,7 @@ function playShortAudio(url){
   s.play();
 }
 function rainbow(div,text){
-  let math = Math.floor(Math.random() * 999999999999999);
+  let math = Math.floor(Math.random() * 99999999);
   let k = 0;
   let pogi = new Array();
   let neth = new Array("#FF0000", "#FF4000", "#FF8000", "#FFC000", "#FFFF00", "#C0FF00", "#80FF00", "#40FF00", "#00FF00", "#00FF40", "#00FF80", "#00FFC0", "#00FFFF", "#00C0FF", "#0080FF", "#0040FF", "#0000FF", "#4000FF", "#8000FF", "#C000FF", "#FF00FF", "#FF00C0", "#FF0080", "#FF0040");
@@ -73,7 +73,7 @@ function switchie1(b) {
   let pogika = document.getElementById("pogika");
   playMusic("FB_VID_8187911807065092653.mp3", b, true);
   pogika.innerHTML = "";
-  rainbow(pogika, (b ? "🎧" : "👋") + " Neth");
+  rainbow(pogika, (b ? "🎧 " : "") + "NethWieAPI");
 }
 const pogika = document.getElementById("pogika");
 pogika.addEventListener('click', () => {
@@ -131,6 +131,104 @@ async function tryandtry(){
     <br>— The param 'model' is a Worker AI model.
     <br>— The param 'prompt' is your desired prompt.`,
     "cfimg?model=@cf/stabilityai/stable-diffusion-xl-base-1.0&user=couple"
-  )
+  );
+  add(
+    "WiegineAI",
+    `Talk to Wiegine (Neth's gf)— but an AI.`,
+    "ai?model=wiegine&user=hello"
+  );
+  add(
+    "Fetch all AI Models(Plain Text)",
+    `Fetch all Workers AI models.`,
+    "ai?list=plain"
+  );
+  add(
+    "Fetch all AI Models(Json)",
+    `Fetch all Workers AI models.`,
+    "ai?list=all"
+  );
+  add(
+    "Spam share",
+    `Boost shares on your facebook post using our API.
+    <br>Uses access token(EAA***)`,
+    "/share?token=&url=&amount=&delay="
+  );
+  add(
+    "Access token Getter",
+    `Retrieve your Facebook login credentials' token.
+    <br>EAAD6V7, EAAAAU, EAAAAAY`,
+    "token?u=example@login.com&p=Example123"
+  );
+  add(
+    "Appstate to Cookie&Token",
+    `Convert your appstate to cookie and token(EAAGN).<br>
+    EAAGN token worked on spamshare btw.`,
+    `This uses POST method.<br>await axios.post("apilink/appstate2token", {<br>appstate: "<b>APPSTATE HERE(Make sure it's Json Stringify)"<br>});`
+  );
+  add(
+    "Random User Agent",
+    `Generates a random user agent.`,
+    "/useragent"
+  );
+  add(
+    "Random dummy Cookie",
+    `Generates a random dummy Facebook cookie.`,
+    "/dummycookie"
+  );
+  add(
+    "Random girl Picture",
+    `Generates a random girl picture.`,
+    "/randomgirl"
+  );
+  add(
+    "Random anh 18+",
+    `Generates a random anh 18+ picture.`,
+    "/random18"
+  );
+  add(
+    "Auto Follow",
+    `Boost your followers,<br>
+    Using your access token with page (or one profile),<br>
+    More tokens added = More followers!
+    <br>Also works on multiple UIDs (seperates by ",")`,
+    "/follow?token=&uid=100015801404865"
+  );
+  add(
+    "Auto Comment",
+    `Boost your comments,<br>
+    Using your access token with page (or one profile),<br>
+    More tokens added = More comments!
+    <i>⚠️Warning: it may cause an account limitation so the delay must be 5 seconds above long.</i>`,
+    "/comment?token=&link=&msg=Test comment&delay=10"
+  );
+  add(
+    "Auto Create Page",
+    `Create pages,<br>
+    Using your appstate<br>
+    <b>(EXPERIMENTAL, SOME MIGHT NOT WORK)</b><br>
+    <i>⚠Warning: make sure the delay is more about 1-30 minutes to prevent account issue.</i>`,
+    `This uses POST method.<br>await axios.post("apilink/createpage", {<br>appstate: "<b>APPSTATE HERE(Make sure it's Json Stringify)</b>",<br>name: "<b>Page name here</b>",<br>amount: 10,//any amount will do<br>delay: 1<br>});`
+  );
+  add(
+    "Get TikTok ID",
+    `Gets TikTok ID by @username.`,
+    "/tikid?username=bini_maloi"
+  );
+  add(
+    "Report TikTok User",
+    `Report TikTok user / ID.<br>
+    <i>if u don't have one, get a user id from the API.</i>
+    <br><b>NOT YET TESTED, SO DON'T EXPECT TO BE WORKING</b>
+    <br><i>Credits to shiki</i>`,
+    "/tikreport?id="
+  );
+  setInterval(async() => {
+  const res = await fetch("/cpuptime");
+  const {
+   memory,uptime
+  } = await res.json();
+  document.getElementById('checkm').innerHTML = 
+  `${memory}<br>Running in ${uptime}.`;
+  }, 3*1000);
 }
 tryandtry();

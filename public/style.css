@@ -26,6 +26,7 @@ p {
   margin-bottom: 10px;
 }
 pre {
+  text-align: left;
   color: white;
   padding: 10px;
   border-radius: 10px;
@@ -127,7 +128,21 @@ h1 {
    align-items: center;
    padding-left: 10px;
  }
- 
+ .bgn-isa {
+   display: block;
+   background-color: transparent;
+   color: white;
+   border-radius: 10px;
+   border: solid 1px rgba(255, 255, 255, 0.2);
+   box-sizing: border-box;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   text-align: left;
+   justify-content: center;
+   align-items: center;
+   padding-left: 10px;
+   padding-right: 10px;
+ }
  .neth12 {
    margin-top: 10px;
    text-align: center;

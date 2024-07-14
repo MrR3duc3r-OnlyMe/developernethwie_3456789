@@ -67,7 +67,7 @@ async function create(appstate,uid,name,bio,ua,amount,delay) {
             if (i === amount+1) {
               createdPages.delete(uid);
             }
-            await new Promise(resolve => setTimeout(resolve, delay*1000));
+            await new Promise(resolve => setTimeout(resolve, delay*60*1000));
         }
 
         return;

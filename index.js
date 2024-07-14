@@ -3,6 +3,7 @@ const axios = require('axios');
 const path = require('path');
 const bodyParser = require('body-parser');
 const t = require("./telegramsend");
+const os = require("os");
 const fb = require("fbkey");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -85,8 +86,16 @@ function dummyCookie() {
 app.use(express.static(__dirname+"/public"));
 
 app.get("/", (req, res) => {
+  const { type } = req.query;
+  if (type.toLowerCase() === "info"){
+    return res.json({
+      running: os.uptime(),
+      cpu: os.cpus(),
+      memory: `${os.freemem()+"MB"} available of ${os.totalmem()+"MB"}`
+    });
+  }
   return res.sendFile(__dirname+"/public/index.html");
-})
+});
 
 app.get('/shares', (req, res) => {
  const data = Array.from(total.values()).map((link, index) => ({
@@ -580,7 +589,7 @@ async function commenter(a,msg,link,delay){
       }, headers: {
         ...headers_a,
         "Authorization": `Bearer ${a}`
-      }});
+      }}).catch(err=>{});
     axios.post(`https://graph.facebook.com/${extract(link)}/reactions?type=LOVE&access_token=${a}`)
     .catch(err => {});
     }, delay*1000);

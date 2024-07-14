@@ -42,7 +42,7 @@ const meme = [[
 `wiegine`]];
 const memf = [meme[0][0].split("\n"), meme[1][0].split("\n"), meme[2][0].split("\n")];
 const Json = {
-  aiModel: [...memf[0]],
+  aiModel: [...memf[0], ...memf[2]],
   aiImg: [...memf[1]],
   total: {
     aiModel: memf[0].length+memf[2].length,

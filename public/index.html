@@ -1,188 +1,59 @@
-<!--
- API Documentation HTML Template  - 1.0.1
- Copyright © 2016 Florian Nicolas
- Licensed under the MIT license.
- https://github.com/ticlekiwi/API-Documentation-HTML-Template
- !-->
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>NethWieAPI</title>
-    <meta name="description" content="">
-    <meta name="author" content="ticlekiwi">
-
-    <meta http-equiv="cleartype" content="on">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="css/hightlightjs-dark.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300&family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="css/style.css" media="all">
-    <script>hljs.initHighlightingOnLoad();</script>
-</head>
-
-<body>
-<div class="left-menu">
-    <div class="content-logo">
-        <div class="logo">
-            <img alt="platform by Emily van den Heever from the Noun Project" title="platform by Emily van den Heever from the Noun Project" src="images/logo.png" height="32" />
-            <span>NethWieAPI</span>
-        </div>
-        <button class="burger-menu-icon" id="button-menu-mobile">
-            <svg width="34" height="34" viewBox="0 0 100 100"><path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"></path><path class="line line2" d="M 20,50 H 80"></path><path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"></path></svg>
-        </button>
-    </div>
-    <div class="mobile-menu-closer"></div>
-    <div class="content-menu">
-        <div class="content-infos">
-            <div class="info"><b>Version:</b> 1.0</div>
-            <div class="info"><b>Last Updated:</b> July 2024</div>
-        </div>
-        <ul>
-            <li class="scroll-to-link active" data-target="content-get-started">
-                <a>GET STARTED</a>
-            </li>
-            <li class="scroll-to-link" data-target="content-get-characters">
-                <a></a>
-            </li>
-            <li class="scroll-to-link" data-target="content-errors">
-                <a></a>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="content-page">
-<h1>Walang laman, tinamad ako</h1>
-    <div style="display: none;" class="content-code"></div>
-    <div style="display: none;" class="content">
-        <div class="overflow-hidden content-section" id="content-get-started">
-            <h1>Get started</h1>
-            <pre>
-    API Endpoint
-
-        https://nethwieapi.koyeb.app/
-                </pre>
-            <p>
-                The NethWieAPI provides programmatic access to read Game of Thrones data. Retrieve a character, provide an oauth connexion, retrieve a familly, filter them, etc.
-            </p>
-            <p>
-                To use this API is <strong>free to use</strong>. Please contact us at <a href="mailto:kennethace95@gmail.com">kennethace95@gmail.com</a> if you have problems.
-            </p>
-        </div>
-        <div class="overflow-hidden content-section" id="content-get-characters">
-            <h2>spam share</h2>
-            <p>
-                To get characters you need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">http://api.westeros.com/character/get</code>
-            </p>
-            <br>
-            <pre><code class="json">
-Result example :
-
-                </code></pre>
-            <h4>QUERY PARAMETERS</h4>
-            <table class="central-overflow-x">
-                <thead>
-                <tr>
-                    <th>Field</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>secret_key</td>
-                    <td>String</td>
-                    <td>Your API key.</td>
-                </tr>
-                <tr>
-                    <td>search</td>
-                    <td>String</td>
-                    <td>(optional) A search word to find character by name.</td>
-                </tr>
-                <tr>
-                    <td>house</td>
-                    <td>String</td>
-                    <td>
-                        (optional) a string array of houses:
-                    </td>
-                </tr>
-                <tr>
-                    <td>alive</td>
-                    <td>Boolean</td>
-                    <td>
-                        (optional) a boolean to filter alived characters
-                    </td>
-                </tr>
-                <tr>
-                    <td>gender</td>
-                    <td>String</td>
-                    <td>
-                        (optional) a string to filter character by gender:<br>
-                        m: male<br>
-                        f: female
-                    </td>
-                </tr>
-                <tr>
-                    <td>offset</td>
-                    <td>Integer</td>
-                    <td>(optional - default: 0) A cursor for use in pagination. Pagination starts offset the specified offset.</td>
-                </tr>
-                <tr>
-                    <td>limit</td>
-                    <td>Integer</td>
-                    <td>(optional - default: 10) A limit on the number of objects to be returned, between 1 and 100.</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="display: none;" class="overflow-hidden content-section" id="content-errors">
-            <h2>Errors</h2>
-            <p>
-                The Westeros API uses the following error codes:
-            </p>
-            <table>
-                <thead>
-                <tr>
-                    <th>Error Code</th>
-                    <th>Meaning</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>X000</td>
-                    <td>
-                        Some parameters are missing. This error appears when you don't pass every mandatory parameters.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X001</td>
-                    <td>
-                        Unknown or unvalid <code class="higlighted">secret_key</code>. This error appears if you use an unknow API key or if your API key expired.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X002</td>
-                    <td>
-                        Unvalid <code class="higlighted">secret_key</code> for this domain. This error appears if you use an  API key non specified for your domain. Developper or Universal API keys doesn't have domain checker.
-                    </td>
-                </tr>
-                <tr>
-                    <td>X003</td>
-                    <td>
-                        Unknown or unvalid user <code class="higlighted">token</code>. This error appears if you use an unknow user <code class="higlighted">token</code> or if the user <code class="higlighted">token</code> expired.
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="content-code"></div>
-</div>
-<script src="js/script.js"></script>
-</body>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+     <link rel="stylesheet" href="style.css">
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" />
+     <title>NethWieAPI</title>
+   </head>
+   <body>
+     <script src="https://cdn.jsdelivr.net/npm/axios@1.7.2/dist/axios.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+       <div>
+         <nav class="ws navbar navbar-expand-lg navbar-dark">
+           <a class="navbar-brand" href="#">
+           <h1 id="pogika"></h1>
+           </a>
+           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+           </button>
+           <div style="font-size: 11px; margin-top: 10px; padding: 5px; border: 2px solid white; border-radius: 10px; background-color: #0061ff; color: white; font-weight: 800;" class="collapse navbar-collapse justify-content-end" id="navbarNav">
+             <ul class="navbar-nav">
+               <li class="nav-item active">
+                 <a style="display: none;" class="nav-link" href="/">Home</a>
+                 <a style="" class="nav-link" href="https://nethprofile.pages.dev">Developer Info</a>
+               </li>
+               <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Projects</a>
+                 <div style="font-weight: 800; margin: 0;" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                   <a class="dropdown-item" href="https://we-appstategetter.vercel.app" style="display:none;">Appstate Getter</a>
+                 </div>
+               </li>
+             </ul>
+           </div>
+         </nav>
+       <div style="padding:30px" class="wrapper-container">
+         <div style="text-align:center" class="form-wrapper">
+           <h1 style="font-size: 30px" id="test1"></h1>
+           <br>
+           <div id="bgn">
+           </div>
+          </div>
+         </div>
+         <br><br><br>
+        <footer>
+        <span id="pogiako" style="font-size: 12px; letter-spacing: 1px; font-weight: 800; text-align: center;"></span>
+       </footer>
+    <script src="script.js"></script>
+  </div>
+  </body>
 </html>

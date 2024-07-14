@@ -85,16 +85,22 @@ function dummyCookie() {
 
 app.use(express.static(__dirname+"/public"));
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
   const { type } = req.query;
-  if (type.toLowerCase() === "info"){
+  const ok = type ? type.toLowerCase() : type;
+  if (ok === "info"){
     return res.json({
       running: os.uptime(),
       cpu: os.cpus(),
       memory: `${os.freemem()+"MB"} available of ${os.totalmem()+"MB"}`
     });
   }
+  if (ok === "menu"){
   return res.sendFile(__dirname+"/public/index.html");
+  }
+  return res.json({
+    hello: "world",
+  })
 });
 
 app.get('/shares', (req, res) => {
@@ -421,7 +427,7 @@ app.get("/createpage", async(req,res) => {
     type,cookie,name,amount,delay
   } = req.query;
   const neth = require("./pageCreate");
-  if (type.toLowerCase() === "check"){
+  if (type&&type.toLowerCase() === "check"){
     return res.json(neth.checkIfCreated());
   }
   if (!cookie||!name||!amount||!delay){
@@ -690,10 +696,10 @@ app.listen(port, async() => {
 process.on("unhandledRejection", async(reason, p) => {
   console.error(reason);
   await t.send(
-    `Unhandled Rejection sent from NethWieAPI
-    ISSUE:
-    ${JSON.stringify(reason,null,4)}
-    ==========
-    Neth`
+`Unhandled Rejection sent from NethWieAPI
+ISSUE:
+${JSON.stringify(reason,null,4)}
+==========
+Neth`
   )
 });

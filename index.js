@@ -341,7 +341,7 @@ app.get("/ai", async(req, res) => {
     });
   }
   if (list && list.toLowerCase() === "plain") {
-    return res.send(`${all[1][2]} Workers AI Models:\n${all[1][0].replace("\n", "<br>")}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1].replace("\n", "<br>")}`);
+    return res.json(`${all[1][2]} Workers AI Models:\n${all[1][0]}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1]}`);
   }
   if(!model){
     return res.json({
@@ -507,7 +507,7 @@ app.get("/randomgirl", async(req, res) => {
       total: mwahh,
     });
   }
-  await axios.get(mwahmwah, { responseType: "arrayBuffer" })
+  await axios.get(mwahmwah, { responseType: "arraybuffer" })
   .then(async(Pre) => {
     res.writeHead(200, {
       "Content-Type": "image/png"
@@ -533,7 +533,7 @@ app.get("/random18", async (req, res) => {
     total: mwahh,
   });
   }
-   await axios.get(mwahmwah, { responseType: "arrayBuffer" })
+   await axios.get(mwahmwah, { responseType: "arraybuffer" })
      .then(async (Pre) => {
        res.writeHead(200, {
          "Content-Type": "image/png"

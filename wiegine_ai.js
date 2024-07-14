@@ -49,7 +49,7 @@ const Json = {
     aiImg: memf[1].length
   }
 };
-const TxtOnly0 = memf[0].join("\n")+memf[2].join("\n");
+const TxtOnly0 = memf[0].join("\n")+"\n"+memf[2].join("\n");
 const TxtOnly1 = memf[1].join("\n");
 return [[Json, memf[0], memf[1], memf[2]], [TxtOnly0, TxtOnly1, Json.total.aiModel, Json.total.aiImg]];
 }
@@ -82,7 +82,7 @@ async function cfai(model,system,user,image){
     });
   }
   const t = getType(model,system);
-  const data = system ? {
+  const data =  (t[1] || system) ? {
     "messages": [
       { "role": "system", "content": t ? t[1] : system },
       { "role": "user", "content": user }

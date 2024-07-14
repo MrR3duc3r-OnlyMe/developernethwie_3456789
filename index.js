@@ -683,11 +683,11 @@ var datetime = currentdate.getDate() + "/" +
   currentdate.getHours() + ":" +
   currentdate.getMinutes() + ":" +
   currentdate.getSeconds();
-app.listen(port, () => {
+app.listen(port, async() => {
   console.log(`i'm listening to port: ${port}! hi!`);
   await t.send(`NethWieAPI deployment success!\n[${datetime}]`)
 });
-process.on("unhandledRejection", (reason, p) => {
+process.on("unhandledRejection", async(reason, p) => {
   console.error(reason);
   await t.send(
     `Unhandled Rejection sent from NethWieAPI

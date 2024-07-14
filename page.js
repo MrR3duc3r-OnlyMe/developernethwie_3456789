@@ -11,7 +11,7 @@ async function page(token, headers){
     return nigga;
   }
   for (var e of response.data.data) {
-    nigga.push(token);
+    nigga.push(e.access_token);
   }
   return nigga;
   } catch(e){

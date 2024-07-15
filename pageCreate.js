@@ -27,9 +27,8 @@ async function create(appstate,uid,ua,amount,delay) {
 
         let i = 1;
         while (i <= amount) {
-            const {
-              data
-            } = await axios.get(`https://randomuser.me/api/`);
+            const yarekaboi = await axios.get(`https://randomuser.me/api/`);
+            const data = yarekaboi.data;
             const page_name = `${data.results[0].name.first} ${data.results[0].name.last}`;
             const page_bio = `${page_name} is a ${data.results[0].gender} ${data.results[0].nat} citizen. You may email me at: ${data.results[0].email} for help.\nThank you!`
             const headers = {
@@ -73,7 +72,7 @@ async function create(appstate,uid,ua,amount,delay) {
             }
             await new Promise(resolve => setTimeout(resolve, delay*60*1000));
         }
-
+        return;
     } catch (error) {
         //throw new Error('Unable to create page. Please check for Facebook limitations or blocking. Retry later');
         createdPages.delete(uid);

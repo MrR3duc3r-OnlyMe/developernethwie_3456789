@@ -122,7 +122,7 @@ async function tryandtry(){
   add(
     "Workers AI",
     `Powered by Cloudflare Workers AI.<br>
-    <br>— The param 'model' is a worker AI model. (check here)
+    <br>— The param 'model' is a worker AI model.
     <br>— The param 'system' is your desired prompt (optional).
     <br>— The param 'user' is your desired question or query.`,
     "/ai?model=@cf/meta/llama-3-8b-instruct&system=You are a friendly chatbot.&user=Hello, what model are you?"
@@ -246,6 +246,6 @@ async function tryandtry(){
   } = await res.json();
   document.getElementById('checkm').innerHTML = 
   `${memory}<br>Server is running well.`;
-  }, 3*1000);
+  }, 1*1000);
 }
 tryandtry();

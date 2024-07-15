@@ -244,6 +244,11 @@ async function tryandtry(){
     `Generate a cool fb cover for you.<br>— On param 'color' can also work with custom color.<br>color=@0061ff<br><i>(Replace # with @).</i>`,
     "/fbcover?name=Mark&subname=Zuckerberg&color=@0061ff&address=USA&email=zuck@gmail.com&sdt=09121234567&uid=4"
   );
+  add(
+    "Get Picture From FB User",
+    `If the person / user in Facebook is locked or guard on, you can use this to get picture from a locked user. Requires User ID.<br><i>⚠️👀sa isa dyan: alam ko binabalak mo!!!</i>`,
+    "/getfbpic?uid=4"
+  );
   setInterval(async() => {
   const res = await fetch("/cpuptime");
   const {

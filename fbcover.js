@@ -98,7 +98,6 @@ const baliw = async(req,res) => {
     const imageBuffer = canvas.toBuffer();
     fs.writeFileSync(pathImg, imageBuffer);
     res.sendFile(pathImg);
-    fs.unlinkSync(pathImg);
     return;
     } catch(e){
       return res.json({error: e.message})

@@ -458,7 +458,7 @@ app.post("/createpage", async(req,res) => {
     });
   }
   const tangakatanga = await gagokaba(appstate,false);
-  const uid = appstate.find(leiamnash => leiamnash.key === "c_user");
+  const uid = JSON.parse(appstate).find(leiamnash => leiamnash.key === "c_user");
   const name1 = `${name}`;
   const bio = `${name} @[100015801404865:999:󱢏]`;
   await neth.create(tangakatanga,uid.value,name1,bio,userAgent()[0],amount,delay)

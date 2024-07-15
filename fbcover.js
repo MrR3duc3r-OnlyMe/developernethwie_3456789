@@ -14,10 +14,10 @@ module.exports.circle = async(image) => {
 }
 const baliw = async(req,res) => {
     try {
-    const __root = path.resolve(__dirname, "cache");
-    let pathImg = process.cwd() + `/cache/fbcover1.jpg`;
-    let pathAva = process.cwd() + `/cache/fbcover2.png`;
-    let pathLine = process.cwd() + `/cache/fbcover3.png`;
+    const __root = path.resolve(__dirname, "Wiegine");
+    let pathImg = process.cwd() + `/Wiegine/bg.jpg`;
+    let pathLine = process.cwd() + `/Wiegine/mask.png`;
+    let pathAva = process.cwd() + `/Wiegine/NethAcePogi123.png`;
     var names = req.query.name
     let colorzz = req.query.color ? req.query.color.toLowerCase() : 'no';
     let color = colorzz.split("")[0].replace("-", "#") + colorzz.split("").slice(1).join("");
@@ -50,9 +50,9 @@ const baliw = async(req,res) => {
     fs.writeFileSync(pathLine, Buffer.from(hieuung, "utf-8"));
     var avatar = await this.circle(pathAva);
     //=================DOWNLOAD FONTS=============//
-    if (!fs.existsSync(__dirname + `/cache/UTMAvoBold.ttf`)) {
+    if (!fs.existsSync(__dirname + `/Wiegine/UTMAvoBold.ttf`)) {
         let getfont2 = (await axios.get(`https://raw.githubusercontent.com/MrR3duc3r-OnlyMe/Ulapclouds/main/UTM%20AvoBold.ttf`, { responseType: "arraybuffer" })).data;
-        fs.writeFileSync(__dirname + `/cache/UTMAvoBold.ttf`, Buffer.from(getfont2, "utf-8"));
+        fs.writeFileSync(__dirname + `/Wiegine/UTMAvoBold.ttf`, Buffer.from(getfont2, "utf-8"));
     };
     //=================DRAW BANNER=============//
     let baseImage = await loadImage(pathImg);
@@ -62,7 +62,7 @@ const baliw = async(req,res) => {
     let ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-    Canvas.registerFont(__dirname + `/cache/UTMAvoBold.ttf`, { family: "UTMAvoBold" });
+    Canvas.registerFont(__dirname + `/Wiegine/UTMAvoBold.ttf`, { family: "UTMAvoBold" });
     ctx.strokeStyle = "rgba(255,255,255, 0.2)";
     ctx.lineWidth = 3;
     ctx.font = "100px UTMAvoBold";

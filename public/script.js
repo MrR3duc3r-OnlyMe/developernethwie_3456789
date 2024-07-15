@@ -252,10 +252,12 @@ async function tryandtry(){
   setInterval(async() => {
   const res = await fetch("/cpuptime");
   const {
-   memory,uptime
+  cpu,memory
   } = await res.json();
+  const cores = cpu.length;
+  const processor = cpu[0].model;
   document.getElementById('checkm').innerHTML = 
-  `${memory}<br>Server is running well.`;
+  `Powered by ${cores}-core ${processor}<br>Memory: ${memory}<br>Status: <font color=green>Server is OK</font>`;
   }, 1*1000);
 }
 tryandtry();

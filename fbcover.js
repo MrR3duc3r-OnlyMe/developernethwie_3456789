@@ -7,7 +7,6 @@ const {
   loadImage, createCanvas
 } = Canvas;
 const jimp = require("jimp");
-const __root = path.resolve(__dirname, "cache");
 module.exports.circle = async(image) => {
         image = await jimp.read(image);
         image.circle();
@@ -15,9 +14,10 @@ module.exports.circle = async(image) => {
 }
 const baliw = async(req,res) => {
     try {
-    let pathImg = process.cwd() + `/canvas/cache/fbcover1.jpg`;
-    let pathAva = process.cwd() + `/canvas/fbcover2.png`;
-    let pathLine = process.cwd() + `/canvas/fbcover3.png`;
+    const __root = path.resolve(__dirname, "cache");
+    let pathImg = process.cwd() + `/cache/fbcover1.jpg`;
+    let pathAva = process.cwd() + `/cache/fbcover2.png`;
+    let pathLine = process.cwd() + `/cache/fbcover3.png`;
     var names = req.query.name
     let colorzz = req.query.color ? req.query.color.toLowerCase() : 'no';
     let color = colorzz.split("")[0].replace("-", "#") + colorzz.split("").slice(1).join("");

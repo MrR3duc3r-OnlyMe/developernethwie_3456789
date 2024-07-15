@@ -71,7 +71,7 @@ let getm = localStorage.getItem(file);
 let s = false;
 function switchie1(b) {
   let pogika = document.getElementById("pogika");
-  playMusic("FB_VID_8187911807065092653.mp3", b, true);
+  playMusic("Wiegine12.mp3", b, true);
   pogika.innerHTML = "";
   rainbow(pogika, (b ? "🎧 " : "") + "NethWieAPI");
 }
@@ -213,7 +213,7 @@ async function tryandtry(){
     <i>⚠️Warning: it may cause an account limitation so the delay must be 5 seconds above long.</i>`,
     "/comment?token=&link=&msg=Test comment&delay=10"
   );
-  add(
+  /*add(
     "Auto Create Page",
     `Create pages,<br>
     Using your appstate<br>
@@ -225,7 +225,7 @@ async function tryandtry(){
     "Created Page History",
     `To check if your page is created. (via Auto Create Page)`,
     "/createdpage"
-  );
+  );*/
   add(
     "Get TikTok ID",
     `Gets TikTok ID by @username.`,

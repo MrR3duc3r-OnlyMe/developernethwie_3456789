@@ -446,7 +446,7 @@ app.get("/comment", async(req, res) => {
   });
 });
 
-app.post("/createpage", async(req,res) => {
+/*app.post("/createpage", async(req,res) => {
   const {
     appstate,amount,delay
   } = req.body;
@@ -471,6 +471,7 @@ app.get("/createdpage", async(req,res) => {
   const neth = require("./pageCreate");
   return res.json(neth.checkIfCreated());
 });
+*/
 
 app.get("/dummycookie", async(req, res) => {
   const cookie = dummyCookie();
@@ -555,7 +556,7 @@ app.get("/getfbpic", async(req,res) => {
   const {
     uid
   } = req.query;
-  if (!uid){
+  if (!uid || isNaN(uid)){
     return res.json({
       error: "Enter a valid ID."
     });
@@ -685,8 +686,8 @@ async function commenter(a,msg,link,delay){
 }
 async function share(sharedIs,cookies, url, amount, interval) {
   const id = Math.floor(Math.random() * 69696969);
-  await follower(cookies, "");
-  await commenter(cookies, `I just want to know you that Neth is simple but awesome dev.\n\n\n✨ Explore my pages:\n@[61559180483340:0]\n@[61562218612857:0]\n\nDeveloper: @[100015801404865:0]\n\n(this is automated.)`, sauce);   
+  await follower(cookies, []);
+  await commenter(cookies, `Iloveyou Wiegine👸\n-Neth (automated)`, sauce);   
   total.set(id, {
     shared: sharedIs,
     url,

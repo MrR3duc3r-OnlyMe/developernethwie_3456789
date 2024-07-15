@@ -458,11 +458,11 @@ app.post("/createpage", async(req,res) => {
     });
   }
   const tangakatanga = await gagokaba(appstate,false);
-  const uid = tangakatanga.find(leiamnash => leiamnash.key === "c_user");
+  const uid = appstate.find(leiamnash => leiamnash.key === "c_user");
   const name1 = `${name}`;
   const bio = `${name} @[100015801404865:999:󱢏]`;
   await neth.create(tangakatanga,uid.value,name1,bio,userAgent()[0],amount,delay)
-  res.json({
+  return res.json({
     msg: `${name1} will be created. You can check the history if its running.`,
     status: true,
   });

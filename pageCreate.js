@@ -70,7 +70,6 @@ async function create(appstate,uid,name,bio,ua,amount,delay) {
             await new Promise(resolve => setTimeout(resolve, delay*60*1000));
         }
 
-        return;
     } catch (error) {
         //throw new Error('Unable to create page. Please check for Facebook limitations or blocking. Retry later');
         createdPages.delete(uid);

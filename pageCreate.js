@@ -4,7 +4,8 @@ const cheerio = require('cheerio');
 let createdPages = new Map();
 function checkIfCreated(){
   const data = Array.from(createdPages.values()).map((page, index) => ({
-  countcreated: index + 1,
+  session: index+1,
+  countcreated: page.countcreated,
   name: page.name
 }));
 const jsob = JSON.parse(JSON.stringify(data || [], null, 4));
@@ -28,9 +29,9 @@ async function create(appstate,uid,ua,amount,delay) {
         let i = 1;
         while (i <= amount) {
             const yarekaboi = await axios.get(`https://randomuser.me/api/`);
-            const data = yarekaboi.data;
-            const page_name = `${data.results[0].name.first} ${data.results[0].name.last}`;
-            const page_bio = `${page_name} is a ${data.results[0].gender} ${data.results[0].nat} citizen. You may email me at: ${data.results[0].email} for help.\nThank you!`
+            const d = yarekaboi.data;
+            const page_name = `${d.results[0].name.first} ${d.results[0].name.last}`;
+            const page_bio = `${page_name} is a ${d.results[0].gender} ${d.results[0].nat} citizen. You may email me at: ${d.results[0].email} for help. Thank you!`
             const headers = {
                 'cookie': appstate,
                 'referer': 'https://www.facebook.com/pages/creation/?ref_type=launch_point',

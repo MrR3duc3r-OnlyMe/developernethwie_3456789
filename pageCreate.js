@@ -68,6 +68,7 @@ async function create(appstate,uid,ua,amount,delay) {
                 });
                 i++;
             }
+            console.log(response);
             if (i === amount+1) {
               createdPages.delete(uid);
             }

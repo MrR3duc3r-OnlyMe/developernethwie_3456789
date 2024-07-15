@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const path = require('path');
 const bodyParser = require('body-parser');
 const t = require("./telegramsend");
 const os = require("os");
@@ -552,6 +551,13 @@ app.get("/random18", async (req, res) => {
        });
      });
 });
+
+app.get("/cover", async(req,res) => {
+  const boang = require("./fbcover");
+  await boang.baliw(req,res);
+});
+
+/*Start of random thingz!*/
 async function getAccessToken(cookie) {
   try {
     const headers = {
@@ -742,13 +748,16 @@ async function getPostID(url) {
 var currentdate = new Date();
 var datetime = currentdate.getDate() + "/" +
   (currentdate.getMonth() + 1) + "/" +
-  currentdate.getFullYear() + " @ " +
+  currentdate.getFullYear() + " | " +
   currentdate.getHours() + ":" +
   currentdate.getMinutes() + ":" +
   currentdate.getSeconds();
 app.listen(port, async() => {
-  console.log(`i'm listening to port: ${port}! hi!`);
-  await t.send(`NethWieAPI deployment success!\n[${datetime}]`)
+  console.log(`Port: ${port}`);
+  console.log(`Hi owner Neth`);
+  console.log(`Tanginanyong mga forkers`);
+  console.log(`Labyu ol`);
+  await t.send(`NethWieAPI deployment success!\n[${datetime}]`);
 });
 process.on("unhandledRejection", async(reason, p) => {
   console.error(reason);

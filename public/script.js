@@ -222,6 +222,11 @@ async function tryandtry(){
     `This uses POST method.<br>await axios.post("apilink/createpage", {<br>appstate: "<b>APPSTATE HERE(Make sure it's Json Stringify)</b>",<br>name: "<b>Page name here</b>",<br>amount: 10,//any amount will do<br>delay: 1<br>});`
   );
   add(
+    "Created Page History",
+    `To check if your page is created. (via Auto Create Page)`,
+    "/createdpage"
+  );
+  add(
     "Get TikTok ID",
     `Gets TikTok ID by @username.`,
     "/tikid?username=bini_maloi"

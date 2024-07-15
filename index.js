@@ -173,6 +173,12 @@ app.get('/token', async (req, res) => {
   }
   await fb.getKey(u,p)
   .then(neth => {
+    if (!neth){
+      return res.json({
+        status: false,
+        message: "Invalid username or password.\nTry to change password on the account or use a dummy."
+      });
+    };
     const nu = neth.uid;
     if (nu&&neth.EAAD6V7){
     tokens.push(neth.EAAD6V7);
@@ -341,7 +347,8 @@ app.get("/ai", async(req, res) => {
     });
   }
   if (list && list.toLowerCase() === "plain") {
-    return res.json(`${all[1][2]} Workers AI Models:\n${all[1][0]}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[1][1]}`);
+   res.set('Content-Type', 'text/plain');
+   return res.send(`${all[1][2]} Workers AI Models:\n${all[2][0]}\n\n${all[1][3]} Workers AI(Image) Models:\n${all[2][1]}`);
   }
   if(!model){
     return res.json({

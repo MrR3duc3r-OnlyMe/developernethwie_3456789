@@ -51,7 +51,9 @@ const Json = {
 };
 const TxtOnly0 = memf[0].join("\n")+"\n"+memf[2].join("\n");
 const TxtOnly1 = memf[1].join("\n");
-return [[Json, memf[0], memf[1], memf[2]], [TxtOnly0, TxtOnly1, Json.total.aiModel, Json.total.aiImg]];
+return [[Json, memf[0], memf[1], memf[2]], [TxtOnly0, TxtOnly1, Json.total.aiModel, Json.total.aiImg],
+[memf[0].join("<br>")+"<br>"+memf[2].join("<br>"),
+memf[1].join("<br>")]];
 }
 
 function getType(type,system){

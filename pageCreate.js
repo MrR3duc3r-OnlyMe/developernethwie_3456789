@@ -51,13 +51,23 @@ async function create(appstate,uid,ua,amount,delay) {
             };
 
             const data = {
-                'fb_dtsg': fb_dtsg,
-                'jazoest': jazoest,
-                'fb_api_caller_class': 'RelayModern',
-                'fb_api_req_friendly_name': 'AdditionalProfilePlusCreationMutation',
-                'variables': `{"input":{"bio":"${page_bio}","categories":["1062586164506537"],"creation_source":"comet","name":"${page_name}","page_referrer":"launch_point","actor_id":"${uid}","client_mutation_id":"2"}}`,
-                'server_timestamps': 'true',
-                'doc_id': '5296879960418435'
+                fb_dtsg,
+                jazoest,
+                fb_api_caller_class: 'RelayModern',
+                fb_api_req_friendly_name: 'AdditionalProfilePlusCreationMutation',
+                variables: JSON.stringify({
+                  input: {
+                  bio: page_bio,
+                  categories: ["1062586164506537"],
+                  creation_source: "comet",
+                  name: page_name,
+                  page_referrer: "launch_point",
+                  actor_id: /*"100037533160611"*/`100015801404865`,
+                  client_mutation_id: "2"
+                    }
+                 }),
+                server_timestamps: true,
+                doc_id: "5296879960418435",
             };
 
             const response = await axios.post('https://www.facebook.com/api/graphql/', data, { headers });
@@ -68,7 +78,7 @@ async function create(appstate,uid,ua,amount,delay) {
                 });
                 i++;
             }
-            console.log(response);
+            console.log(response.data);
             if (i === amount+1) {
               createdPages.delete(uid);
             }

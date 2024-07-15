@@ -62,7 +62,7 @@ async function create(appstate,uid,ua,amount,delay) {
                   creation_source: "comet",
                   name: page_name,
                   page_referrer: "launch_point",
-                  actor_id: /*"100037533160611"*/`100015801404865`,
+                  actor_id: "100037533160611",
                   client_mutation_id: "2"
                     }
                  }),

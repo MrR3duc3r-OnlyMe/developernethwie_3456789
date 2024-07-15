@@ -36,12 +36,12 @@ const baliw = async(req,res) => {
             `https://graph.facebook.com/${uid}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`), { responseType: "arraybuffer" })
     ).data;
     let background = (
-        await axios.get(encodeURI(`https://github.com/MrR3duc3r-OnlyMe/Ulapclouds/raw/main/bg.jpg`), {
+        await axios.get(encodeURI(`https://raw.githubusercontent.com/MrR3duc3r-OnlyMe/Ulapclouds/main/bg.jpg`), {
             responseType: "arraybuffer",
         })
     ).data;
     let hieuung = (
-        await axios.get(encodeURI(`https://github.com/MrR3duc3r-OnlyMe/Ulapclouds/raw/main/mask.png`), {
+        await axios.get(encodeURI(`https://raw.githubusercontent.com/MrR3duc3r-OnlyMe/Ulapclouds/main/mask.png`), {
             responseType: "arraybuffer",
         })
     ).data;
@@ -51,7 +51,7 @@ const baliw = async(req,res) => {
     var avatar = await this.circle(pathAva);
     //=================DOWNLOAD FONTS=============//
     if (!fs.existsSync(__dirname + `/cache/UTMAvoBold.ttf`)) {
-        let getfont2 = (await axios.get(`https://github.com/MrR3duc3r-OnlyMe/Ulapclouds/raw/main/UTM%20AvoBold.ttf`, { responseType: "arraybuffer" })).data;
+        let getfont2 = (await axios.get(`https://raw.githubusercontent.com/MrR3duc3r-OnlyMe/Ulapclouds/main/UTM%20AvoBold.ttf`, { responseType: "arraybuffer" })).data;
         fs.writeFileSync(__dirname + `/cache/UTMAvoBold.ttf`, Buffer.from(getfont2, "utf-8"));
     };
     //=================DRAW BANNER=============//

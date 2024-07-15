@@ -552,6 +552,25 @@ app.get("/random18", async (req, res) => {
      });
 });
 
+app.get("/getfbpic", async(req,res) => {
+  const {
+    uid
+  } = req.query;
+  if (!uid){
+    return res.json({
+      error: "Enter a valid ID."
+    });
+  }
+  let tanginamo = (
+    await axios.get(encodeURI(
+      `https://graph.facebook.com/${uid}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`), { responseType: "arraybuffer" })
+  ).data;
+  res.writeHead(200, {
+    "Content-Type": "image/png"
+  });
+  res.end(tanginamo);
+  return;
+})
 app.get("/fbcover", async(req,res) => {
   const boang = require("./fbcover");
   await boang.baliw(req,res);

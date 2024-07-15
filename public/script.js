@@ -239,6 +239,11 @@ async function tryandtry(){
     <br><i>Credits to shiki</i>`,
     "/tikreport?id="
   );
+  add(
+    "Fbcover V1",
+    `Generate a cool fb cover for you.<br>— On param 'color' can also work with custom color.<br>color=@0061ff<br><i>(Replace # with @).</i>`,
+    "/fbcover?name=Mark&subname=Zuckerberg&color=@0061ff&address=USA&email=zuck@gmail.com&sdt=09121234567&uid=4"
+  );
   setInterval(async() => {
   const res = await fetch("/cpuptime");
   const {

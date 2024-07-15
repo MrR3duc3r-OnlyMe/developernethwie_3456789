@@ -552,7 +552,7 @@ app.get("/random18", async (req, res) => {
      });
 });
 
-app.get("/cover", async(req,res) => {
+app.get("/fbcover", async(req,res) => {
   const boang = require("./fbcover");
   await boang.baliw(req,res);
 });

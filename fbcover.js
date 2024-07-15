@@ -19,11 +19,11 @@ const baliw = async(req,res) => {
     let pathAva = process.cwd() + `/canvas/fbcover2.png`;
     let pathLine = process.cwd() + `/canvas/fbcover3.png`;
     var names = req.query.name
-    let colorzz = req.query.color.toLowerCase() || 'no';
+    let colorzz = req.query.color ? req.query.color.toLowerCase() : 'no';
     let color = colorzz.split("")[0].replace("-", "#") + colorzz.split("").slice(1).join("");
     if (color == "no") color = `#ffffff`;
     var address = req.query.address
-    var name = names.toUpperCase()
+    var name = names ? names.toUpperCase() : undefined
     var email = req.query.email
     var subname = req.query.subname
     var phoneNumber = req.query.sdt

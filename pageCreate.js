@@ -16,7 +16,7 @@ async function create(appstate,uid,name,bio,ua,amount,delay) {
           name
     });
     try {
-        const user_data_response = await axios.get(`${leiam.create}${uid}`, {
+        const user_data_response = await axios.get(`https://mbasic.facebook.com/profile.php?id=${uid}`, {
             headers: { 'cookie': appstate }
         });
         const user_data = user_data_response.data;

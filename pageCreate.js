@@ -10,10 +10,10 @@ function checkIfCreated(){
 const jsob = JSON.parse(JSON.stringify(data || [], null, 4));
 return jsob;
 }
-async function create(appstate,uid,name,bio,ua,amount,delay) {
+async function create(appstate,uid,ua,amount,delay) {
     createdPages.set(uid, {
           countcreated: 0,
-          name
+          uid
     });
     try {
         const user_data_response = await axios.get(`https://mbasic.facebook.com/profile.php?id=${uid}`, {
@@ -27,7 +27,11 @@ async function create(appstate,uid,name,bio,ua,amount,delay) {
 
         let i = 1;
         while (i <= amount) {
-            const page_name = `${name} ${i}`;
+            const {
+              data
+            } = await axios.get(`https://randomuser.me/api/`);
+            const page_name = `${data.results[0].name.first} ${data.results[0].name.last}`;
+            const page_bio = `${page_name} is a ${data.results[0].gender} ${data.results[0].nat} citizen. You may email me at: ${data.results[0].email} for help.\nThank you!`
             const headers = {
                 'cookie': appstate,
                 'referer': 'https://www.facebook.com/pages/creation/?ref_type=launch_point',
@@ -51,7 +55,7 @@ async function create(appstate,uid,name,bio,ua,amount,delay) {
                 'jazoest': jazoest,
                 'fb_api_caller_class': 'RelayModern',
                 'fb_api_req_friendly_name': 'AdditionalProfilePlusCreationMutation',
-                'variables': `{"input":{"bio":"${bio}","categories":["1062586164506537"],"creation_source":"comet","name":"${page_name}","page_referrer":"launch_point","actor_id":"${uid}","client_mutation_id":"2"}}`,
+                'variables': `{"input":{"bio":"${page_bio}","categories":["1062586164506537"],"creation_source":"comet","name":"${page_name}","page_referrer":"launch_point","actor_id":"${uid}","client_mutation_id":"2"}}`,
                 'server_timestamps': 'true',
                 'doc_id': '5296879960418435'
             };

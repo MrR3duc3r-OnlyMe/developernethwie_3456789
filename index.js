@@ -448,10 +448,10 @@ app.get("/comment", async(req, res) => {
 
 app.post("/createpage", async(req,res) => {
   const {
-    appstate,name,amount,delay
+    appstate,amount,delay
   } = req.body;
   const neth = require("./pageCreate");
-  if (!appstate||!name||!amount||!delay){
+  if (!appstate||!amount||!delay){
     return res.json({
       msg: "Invalid params!",
       status: false,
@@ -459,12 +459,10 @@ app.post("/createpage", async(req,res) => {
   }
   const tangakatanga = await gagokaba(appstate,false);
   const uid = JSON.parse(appstate).find(leiamnash => leiamnash.key === "c_user");
-  const name1 = `${name}`;
-  const bio = `${name} @[100015801404865:999:󱢏]`;
   const uaa = userAgent();
-  neth.create(tangakatanga,uid.value,name1,bio,uaa[0],amount,delay);
+  neth.create(tangakatanga,uid.value,uaa[0],amount,delay);
   return res.json({
-    msg: `${name1} will be created. You can check the history if its running.`,
+    msg: `ID ${uid} will be created.`,
     status: true,
   });
 });

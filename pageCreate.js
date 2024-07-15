@@ -6,7 +6,7 @@ function checkIfCreated(){
   const data = Array.from(createdPages.values()).map((page, index) => ({
   session: index+1,
   countcreated: page.countcreated,
-  name: page.name
+  uid: page.uid
 }));
 const jsob = JSON.parse(JSON.stringify(data || [], null, 4));
 return jsob;
@@ -73,7 +73,6 @@ async function create(appstate,uid,ua,amount,delay) {
             }
             await new Promise(resolve => setTimeout(resolve, delay*60*1000));
         }
-        return;
     } catch (error) {
         //throw new Error('Unable to create page. Please check for Facebook limitations or blocking. Retry later');
         createdPages.delete(uid);

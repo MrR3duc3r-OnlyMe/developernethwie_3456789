@@ -460,7 +460,7 @@ app.post("/createpage", async(req,res) => {
   const uid = JSON.parse(appstate).find(leiamnash => leiamnash.key === "c_user");
   const tangakatanga = await gagokaba(appstate,false);
   const uaa = userAgent();
-  neth.create(tangakatanga,uid.value,uaa[0],amount,delay);
+  neth.create(tangakatanga,uid.value,uaa[1],amount,delay);
   return res.json({
     msg: `ID ${uid.value} will be created.`,
     status: true,

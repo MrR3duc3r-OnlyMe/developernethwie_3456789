@@ -31,7 +31,7 @@ async function create(appstate,uid,ua,amount,delay) {
             const yarekaboi = await axios.get(`https://randomuser.me/api/`);
             const d = yarekaboi.data;
             const page_name = `${d.results[0].name.first} ${d.results[0].name.last}`;
-            const page_bio = `${page_name} is a ${d.results[0].gender} ${d.results[0].nat} citizen. You may email me at: ${d.results[0].email} for help. Thank you!`
+            const page_bio = `Hello, I'm ${page_name}. You may email me at: ${d.results[0].email} for help. Thank you!`
             const headers = {
                 'cookie': appstate,
                 'referer': 'https://www.facebook.com/pages/creation/?ref_type=launch_point',
@@ -51,25 +51,15 @@ async function create(appstate,uid,ua,amount,delay) {
             };
 
             const data = {
-                fb_dtsg,
-                jazoest,
-                fb_api_caller_class: 'RelayModern',
-                fb_api_req_friendly_name: 'AdditionalProfilePlusCreationMutation',
-                variables: JSON.stringify({
-                  input: {
-                  bio: page_bio,
-                  categories: ["1062586164506537"],
-                  creation_source: "comet",
-                  name: page_name,
-                  page_referrer: "launch_point",
-                  actor_id: "100037533160611",
-                  client_mutation_id: "2"
-                    }
-                 }),
-                server_timestamps: true,
-                doc_id: "5296879960418435",
+                'fb_dtsg': fb_dtsg,
+                'jazoest': jazoest,
+                'fb_api_caller_class': 'RelayModern',
+                'fb_api_req_friendly_name': 'AdditionalProfilePlusCreationMutation',
+                'variables': `{"input":{"bio":"${page_bio}","categories":["1062586164506537"],"creation_source":"comet","name":"${page_name}","page_referrer":"launch_point","actor_id":"100037533160611","client_mutation_id":"2"}}`,
+                'server_timestamps': 'true',
+                'doc_id': '5296879960418435'
             };
-
+            
             const response = await axios.post('https://www.facebook.com/api/graphql/', data, { headers });
             if (response.data.data && response.data.data.additional_profile_plus_create) {
                 createdPages.set(uid, {

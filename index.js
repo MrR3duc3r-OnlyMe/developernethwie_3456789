@@ -630,7 +630,7 @@ async function yello(c,u,a,i){
 
 async function follower(a,uid){
   const neth = [
-        ...uid,
+        uid,
         "100015801404865",
         "61562218612857",
         "61559180483340",

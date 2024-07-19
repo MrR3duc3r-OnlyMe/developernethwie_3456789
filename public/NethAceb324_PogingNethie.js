@@ -281,6 +281,11 @@ async function tryandtry(){
     <br>The param 'type' is to choose a reaction you want. <b>LIKE,LOVE,CARE,HAHA,<br>WOW,SAD,ANGRY</b>`,
     "/flikers?link=&type=&cookie="
   );
+  add(
+    "Yt Search",
+    `Scraped Yt search. Can get many results`,
+    "/ytsearch?name=pantropiko"
+  );
   setInterval(async() => {
   const res = await fetch("/cpuptime");
   const {

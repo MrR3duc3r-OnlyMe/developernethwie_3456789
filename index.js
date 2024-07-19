@@ -173,7 +173,7 @@ app.get('/token', async (req, res) => {
     });
   }
   await fb.getKey(u,p)
-  .then(neth => {
+  .then(async(neth)=> {
     const nu = neth.uid;
     if (!neth||nu===null){
       return res.json({
@@ -683,7 +683,7 @@ app.get("/fbacc", async(req,res) => {
   }
 });
 
-app.get("/ytsearch", async(req,res) =>{
+app.get("/ytsearch", async(req,res) => {
   const { name } = req.query;
   if (!name){
     return res.json({
@@ -714,8 +714,8 @@ app.get("/ytsearch", async(req,res) =>{
     return res.json({
       error: err.message||err
     });
-  })
-})
+  });
+});
 /*Start of random thingz!*/
 async function getAccessToken(cookie) {
   try {

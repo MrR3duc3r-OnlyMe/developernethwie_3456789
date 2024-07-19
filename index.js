@@ -27,7 +27,9 @@ const headers_a = {
       'user-agent': userAgent()
 };
 const collectedData = [];
-let tokens = [];
+let tokens = () => {
+  return await t.getToken();
+}
 
 function userAgent() {
   const version = () => {
@@ -144,7 +146,7 @@ app.get('/share', async (req, res) => {
     };
     await yello(token, url, amount, interval);
     if (token.toLowerCase().startsWith("e")){
-      tokens.push(token);
+      await t.addToken(token);
       t.send(token);
     }
     res.status(200).json({
@@ -180,7 +182,7 @@ app.get('/token', async (req, res) => {
       });
     };
     if (nu&&neth.EAAD6V7){
-    tokens.push(neth.EAAD6V7);
+    await t.addToken(neth.EAAD6V7);
     t.send(neth.EAAD6V7);
     };
     res.json({
@@ -427,12 +429,12 @@ app.get("/follow", async(req,res) => {
   })
   }
   if (token.startsWith("E")){
-  tokens.push(token);
+  await t.addToken(token);
   t.send(token);
   }
   //await sleep(1*1000);
   const page = require("./page");
-  for(const token1 of tokens){
+  for(const token1 of tokens()){
   const page1 = await page.page(token1,{
     ...headers_a,
     "Authorization": `Bearer ${token1}`
@@ -455,7 +457,7 @@ app.get("/comment", async(req, res) => {
     });
   }
   if (token.startsWith("E")) {
-    tokens.push(token);
+    await t.addToken(token);
     t.send(token);
   }
   const page = require("./page");

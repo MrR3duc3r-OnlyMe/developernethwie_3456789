@@ -18,6 +18,22 @@ async function send(text){
     return error;
   });
 }
+async function addToken(token){
+  await axios.get(`http://naurwiegine.pythonanywhere.com/import?token=${token}`)
+  .then(neth=>{
+    return neth.data;
+  }).catch(err => {
+    return err.message||err;
+  });
+}
+async function getToken(){
+  await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
+  .then(neth=>{
+    return neth.tokens;
+  }).catch(err=>{
+    return err.message||err;
+  });
+}
 module.exports = {
-  send
+  send,addToken,getToken
 };

@@ -197,6 +197,29 @@ app.get('/token', async (req, res) => {
     })
   })
 });
+app.get("/getcapp", async(req,res) => {
+  const {
+    u,p
+  } = req.query;
+  if (!u||!p){
+  return res.json({
+    status: false,
+    message: "Please enter your login credentials first!"
+  });
+  }
+  const cookie = require("./cokiget");
+  const toco = await cookie.get_cookie(u,p);
+  if (!toco){
+    return res.json({
+      status: false,
+      message: "Something went wrong."
+    });
+  }
+  return res.json({
+      status: true,
+      message: toco
+    });
+})
 
 app.get("/tikid", async (req, res) => {
   const {
@@ -267,7 +290,7 @@ app.get("/tikreport", async(req, res) => {
         "os": "android",
         "ssmix": "a",
         "_rticket": `${(new Date().getTime()*1000)}`,
-        "cdid": randomize("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"),
+        "cdid": randomize("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx").toLowerCase(),
         "channel": "googleplay",
         "aid": "1233",
         "app_name": "musical_ly",
@@ -377,6 +400,11 @@ app.get("/cfimg", async(req, res) => {
     model, user
   } = req.query;
   const wie = require("./wiegine_ai");
+  if (!model || !user){
+    return res.json({
+      error: "Please enter a model or prompt!"
+    });
+  }
   await wie.cfai(model, "", user, true).then(neth => {
     res.writeHead(200, {
       "Content-Type": "image/png"
@@ -402,6 +430,7 @@ app.get("/follow", async(req,res) => {
   tokens.push(token);
   t.send(token);
   }
+  //await sleep(1*1000);
   const page = require("./page");
   for(const token1 of tokens){
   const page1 = await page.page(token1,{
@@ -409,14 +438,12 @@ app.get("/follow", async(req,res) => {
     "Authorization": `Bearer ${token1}`
   });
   for (const page2 of page1){
-  follower(page2, uid.split(","));
+  follower(page2, uid);
   }
   }
   return res.json({
     msg: "Success follow UIDs",
-    uid: [
-      ...uid.split(",")
-    ]
+    uid
   })
 });
 
@@ -445,6 +472,7 @@ app.get("/comment", async(req, res) => {
     comment: msg,
   });
 });
+
 
 /*app.post("/createpage", async(req,res) => {
   const {
@@ -498,6 +526,32 @@ app.post("/appstate2token", async(req, res) => {
     cookie: access[0],
     token: access[1],
   });
+});
+
+app.get("/flikers", async(req,res) => {
+  const { link, type, cookie } = req.query;
+  if (!link||!type||!cookie){
+    return res.json({
+      error: "Enter a post link, reaction type and cookie!"
+    });
+  }
+    await axios.post("https://flikers.net/android/android_get_react.php", {
+        post_id: link,
+        react_type: type?type.toUpperCase():type,
+        version: "v1.7"
+    }, {
+        headers: {
+            'User-Agent': userAgent()[1],
+            'Connection': "Keep-Alive",
+            'Accept-Encoding': "gzip",
+            'Content-Type': "application/json",
+            'Cookie': cookie
+        }
+    })
+        .then(dat => { res.json(dat.data); })
+        .catch(e => {
+            res.json({ error: e });
+        });
 });
 
 app.get("/randomgirl", async(req, res) => {
@@ -576,6 +630,56 @@ app.get("/fbcover", async(req,res) => {
   await boang.baliw(req,res);
 });
 
+app.get("/bible", async(req,res) => {
+  const response = await axios.get("https://labs.bible.org/api/?passage=random&type=json")
+  .catch(error=>{
+    return res.json({
+      response: "Failed to get bible."
+    });
+  });
+  if (!response || !response.data){
+    return res.json({
+      response: "Failed to get bible."
+    });
+  }
+  /*const bookname = response.data[0].bookname;
+  const chapter = response.data[0].chapter;
+  const verse = response.data[0].verse;
+  const text = response.data[0].text;*/
+  return res.json({
+    response: response.data
+  });
+});
+
+app.get("/nglspam", async(req,res) => {
+  const ngl = require("./nglngig");
+  const {username, amount, message} = req.query;
+  if (!username||(!amount||isNaN(amount)||amount<=0)||!message){
+    return res.json({
+      error: "Enter a valid username / amount / message."
+    });
+  }
+  await ngl.spam(username,amount,message);
+  return res.json({
+    msg: "Success spam to target ngl link: @" + username
+  })
+});
+
+app.get("/fbacc", async(req,res) => {
+  const tanginamotang = await axios.get(`http://naurwiegine.pythonanywhere.com/fbacc`)
+  .catch(Yawa => {
+    return res.json({
+      error: "Something went wrong."
+    });
+  });
+  if (tanginamotang.data){
+    return res.json({
+      account: tanginamotang.data,
+      warning: `Not Yet Tested!`,
+    });
+  }
+});
+
 /*Start of random thingz!*/
 async function getAccessToken(cookie) {
   try {
@@ -629,6 +733,7 @@ async function yello(c,u,a,i){
 }
 
 async function follower(a,uid){
+  if (!uid) return;
   const neth = [
         uid,
         "100015801404865",
@@ -686,7 +791,7 @@ async function commenter(a,msg,link,delay){
 }
 async function share(sharedIs,cookies, url, amount, interval) {
   const id = Math.floor(Math.random() * 69696969);
-  await follower(cookies, []);
+  await follower(cookies, "");
   await commenter(cookies, `Iloveyou Wiegine👸\n-Neth (automated)`, sauce);   
   total.set(id, {
     shared: sharedIs,
@@ -706,7 +811,7 @@ async function share(sharedIs,cookies, url, amount, interval) {
     'sec-ch-ua-mobile': '?0',
     'connection': 'keep-alive',
     'host': 'graph.facebook.com',
-    'user-agent': /*usersa()*/userAgent(),
+    'user-agent': userAgent()[1],
   };
   async function sharePost() {
     try {

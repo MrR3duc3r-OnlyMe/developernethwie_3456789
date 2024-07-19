@@ -1,3 +1,4 @@
+let __________$__________ = (2+2+2+2+2+2+2-2+2-2+2-2+2-2/2*2);
 function showResult(title, message, icon) {
   const iconn = icon ? icon.toLowerCase() : "";
   if (iconn === "error"){
@@ -64,14 +65,14 @@ function rainbow(div,text){
 }
 const result = document.getElementById('result');
 const footertxt = document.getElementById('pogiako');
-footertxt.innerHTML = "© 2024 | Kenneth Aceberos";
+footertxt.innerHTML = "© 2024 NethProjects — by Kenneth Aceberos";
 rainbow(document.getElementById("test1"), "API List Available");
 let file = "NethBgmusic";
 let getm = localStorage.getItem(file);
 let s = false;
 function switchie1(b) {
   let pogika = document.getElementById("pogika");
-  playMusic("Wiegine12.mp3", b, true);
+  playMusic("W"+"i"+"e"+"g"+"i"+"n"+"e"+((1+1+1+1+1+1+1+1+1+1+1+1)-1-1-1-1-1-1-1-1-1-1-1-1+(__________$__________)+987654321).toString()+".mp3", b, true);
   pogika.innerHTML = "";
   rainbow(pogika, (b ? "🎧 " : "") + "NethWieAPI");
 }
@@ -90,12 +91,13 @@ const bgn = document.getElementById("bgn");
 async function add(title, msg, endpoint){
 const ife = endpoint.startsWith("This uses POST method.<br>");
 const container = document.createElement('div');
-container.classList.add('bgn');
+container.classList.add('bgn-isa');
 const label = document.createElement('label');
 label.classList.add('neth12');
 label.innerHTML = `<font color=white><b>${title}</b></font>`;
 container.appendChild(label);
 container.onclick = () => {
+  setTimeout(() => {
   Swal.fire({
     title: title,
     html: `<p>${msg}</p><br><code><pre>${endpoint}</pre></code>`,
@@ -112,6 +114,7 @@ container.onclick = () => {
       window.location.href = endpoint;
     }
   });
+  },(1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1));
 };
 bgn.appendChild(container);
 
@@ -122,7 +125,7 @@ async function tryandtry(){
   add(
     "Workers AI",
     `Powered by Cloudflare Workers AI.<br>
-    <br>— The param 'model' is a worker AI model.
+    <br>— The param 'model' is a worker AI model. (check on "Fetch all AI models")
     <br>— The param 'system' is your desired prompt (optional).
     <br>— The param 'user' is your desired question or query.`,
     "/ai?model=@cf/meta/llama-3-8b-instruct&system=You are a friendly chatbot.&user=Hello, what model are you?"
@@ -130,7 +133,7 @@ async function tryandtry(){
   add(
     "Workers AI(Image)",
     `Powered by Cloudflare Workers AI.<br>
-    <br>— The param 'model' is a Worker AI model.
+    <br>— The param 'model' is a Worker AI model. (check on "Fetch all AI models")
     <br>— The param 'prompt' is your desired prompt.`,
     "/cfimg?model=@cf/stabilityai/stable-diffusion-xl-base-1.0&user=couple"
   );
@@ -138,6 +141,11 @@ async function tryandtry(){
     "WiegineAI",
     `Talk to Wiegine (Neth's gf)— but an AI.`,
     "/ai?model=wiegine&user=hello"
+  );
+  add(
+    "NethAI",
+    `Talk to Neth— but an AI.`,
+    "/ai?model=neth&user=hello"
   );
   add(
     "Fetch all AI Models(Plain Text)",
@@ -160,6 +168,11 @@ async function tryandtry(){
     `Retrieve your Facebook login credentials' token.
     <br>EAAD6V7, EAAAAU, EAAAAAY`,
     "/token?u=example@login.com&p=Example123"
+  );
+  add(
+    "Cookie/Appstate Getter",
+    `Retrieve your Facebook login credentials' cookie.`,
+    "/getcapp?u=example@login.com&p=Example123"
   );
   add(
     "Appstate to Cookie&Token",
@@ -201,15 +214,14 @@ async function tryandtry(){
     "Auto Follow",
     `Boost your followers,<br>
     Using your access token with page (or one profile),<br>
-    More tokens added = More followers!
-    <br>Also works on multiple UIDs (seperates by ",")`,
+    More token with page added = More followers!`,
     "/follow?token=&uid=100015801404865"
   );
   add(
     "Auto Comment",
     `Boost your comments,<br>
     Using your access token with page (or one profile),<br>
-    More tokens added = More comments!
+    More token with pages added = More comments!
     <i>⚠️Warning: it may cause an account limitation so the delay must be 5 seconds above long.</i>`,
     "/comment?token=&link=&msg=Test comment&delay=10"
   );
@@ -248,6 +260,27 @@ async function tryandtry(){
     "Get Picture From FB User",
     `If the person / user in Facebook is locked or guard on, you can use this to get picture from a locked user. Requires User ID.<br><i>⚠️👀sa isa dyan: alam ko binabalak mo!!!</i>`,
     "/getfbpic?uid=4"
+  );
+  add(
+    "Fb Auto Create",
+    `NOT YET TESTED. THIS IS EXPERIMENTAL FEATURE`,
+    "/fbacc"
+  );
+  add(
+    "Ngl Spam",
+    `Spam a message to provided ngl.link (Don't use this for illegal use / abuse)`,
+    "/nglspam?username=&amount=&message="
+  );
+  add(
+    "Bible Verse",
+    `Generates a bible verse.`,
+    "/bible"
+  );
+  add(
+    "Auto Likers(Flikers)",
+    `30-40 reacts every cookie. Cooldown is 30 minutes every cookie.
+    <br>The param 'type' is to choose a reaction you want. <b>LIKE,LOVE,CARE,HAHA,<br>WOW,SAD,ANGRY</b>`,
+    "/flikers?link=&type=&cookie="
   );
   setInterval(async() => {
   const res = await fetch("/cpuptime");

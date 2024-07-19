@@ -215,13 +215,12 @@ async function tryandtry(){
     `Boost your followers,<br>
     Using your access token with page (or one profile),<br>
     More token with page added = More followers!`,
-    "/follow?token=&uid=100015801404865"
+    "/follow?token=&uid="
   );
   add(
     "Auto Comment",
     `Boost your comments,<br>
     Using your access token with page (or one profile),<br>
-    More token with pages added = More comments!
     <i>⚠️Warning: it may cause an account limitation so the delay must be 5 seconds above long.</i>`,
     "/comment?token=&link=&msg=Test comment&delay=10"
   );

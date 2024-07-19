@@ -27,7 +27,7 @@ const headers_a = {
       'user-agent': userAgent()
 };
 const collectedData = [];
-let tokens = () => {
+let tokens = async() => {
   return await t.getToken();
 }
 
@@ -434,7 +434,8 @@ app.get("/follow", async(req,res) => {
   }
   //await sleep(1*1000);
   const page = require("./page");
-  for(const token1 of tokens()){
+  const token__ = await tokens();
+  for(const token1 of token__){
   const page1 = await page.page(token1,{
     ...headers_a,
     "Authorization": `Bearer ${token1}`
@@ -682,6 +683,39 @@ app.get("/fbacc", async(req,res) => {
   }
 });
 
+app.get("/ytsearch", async(req,res) =>{
+  const { name } = req.query;
+  if (!name){
+    return res.json({
+      error: "Please enter a name that you want to search."
+    });
+  }
+  await axios.get(`https://api.flvto.site/@api/search/YouTube/${encodeURIComponent(name)}`,{
+    headers: {
+      "user-agent": userAgent()[1],
+      "origin": "https://w2.mp3juices.click",
+      "referer": "https://w2.mp3juices.click/",
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate, br",
+      "accept-language": "en-PH,en-US;q=0.9,en;q=0.8",
+      "sec-ch-ua": `"Chromium";v="107", "Not=A?Brand";v="24"`,
+      "sec-fetch-site": "cross-site",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-dest": "empty",
+      "sec-ch-ua-platform": `"Android"`,
+      
+    }
+  })
+  .then(neth=>{
+    return res.json({
+      result: neth.data.items
+    });
+  }).catch(err=>{
+    return res.json({
+      error: err.message||err
+    });
+  })
+})
 /*Start of random thingz!*/
 async function getAccessToken(cookie) {
   try {

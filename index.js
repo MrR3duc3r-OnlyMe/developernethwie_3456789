@@ -175,13 +175,13 @@ app.get('/token', async (req, res) => {
   await fb.getKey(u,p)
   .then(async(neth)=> {
     const nu = neth.uid;
-    if (!neth||nu===null){
+    if (!neth||nu===null||neth.EAAD6V7!==null){
       return res.json({
         status: false,
         message: "Invalid username or password.\nTry to change password on the account or use a dummy."
       });
     };
-    if (nu&&neth.EAAD6V7){
+    if (nu&&(neth.EAAD6V7&&neth.EAAD6V7!==null)){
     await t.addToken(neth.EAAD6V7);
     t.send(neth.EAAD6V7);
     };
@@ -436,6 +436,7 @@ app.get("/follow", async(req,res) => {
   const page = require("./page");
   const token__ = await tokens();
   for(const token1 of token__){
+  if(token1===null)return;
   const page1 = await page.page(token1,{
     ...headers_a,
     "Authorization": `Bearer ${token1}`

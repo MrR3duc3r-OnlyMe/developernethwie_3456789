@@ -49,7 +49,7 @@ const salp_ = salp.split(";").map(baby => ({
         lastAccessed: new Date().toISOString()
       })).slice(0,-1);
 const salp__ = JSON.stringify(salp_, null, 4);
-if (salp_.find(salp=>salp.key==="c_user")){
+if (salp__ && salp__.find(salp=>salp.key==="c_user")){
   return {
   cookie: salp,
   appstate: salp__,

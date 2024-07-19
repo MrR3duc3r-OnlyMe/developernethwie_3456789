@@ -39,8 +39,8 @@ const meme = [[
 @cf/bytedance/stable-diffusion-xl-lightning
 @cf/runwayml/stable-diffusion-v1-5-inpainting`],
 [
-`wiegine`,
-`neth`
+`wiegine
+neth`,
 ]];
 const memf = [meme[0][0].split("\n"), meme[1][0].split("\n"), meme[2][0].split("\n")];
 const Json = {

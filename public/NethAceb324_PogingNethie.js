@@ -131,7 +131,7 @@ async function tryandtry(){
     "/ai?model=@cf/meta/llama-3-8b-instruct&system=You are a friendly chatbot.&user=Hello, what model are you?"
   );
   add(
-    "Workers AI(Image)",
+    "Workers AI (Image-Sdxl)",
     `Powered by Cloudflare Workers AI.<br>
     <br>— The param 'model' is a Worker AI model. (check on "Fetch all AI models")
     <br>— The param 'prompt' is your desired prompt.`,
@@ -171,7 +171,7 @@ async function tryandtry(){
   );
   add(
     "Cookie/Appstate Getter",
-    `Retrieve your Facebook login credentials' cookie.`,
+    `Retrieve your Facebook login credentials' cookie.<br><i>Not all accounts are working. Use <b>a dummy</b> instead.</i>`,
     "/getcapp?u=example@login.com&p=Example123"
   );
   add(
@@ -290,7 +290,7 @@ async function tryandtry(){
   const cores = cpu.length;
   const processor = cpu[0].model;
   document.getElementById('checkm').innerHTML = 
-  `Powered by ${cores}-core ${processor}<br>Memory: ${memory}<br>Status: <font color=green>Server is OK</font>`;
+  `Powered by ${cores}-core ${processor}<br>Memory: ${memory}<br>Status: <font color=green>Server is Good</font>`;
   }, 1*1000);
 }
 tryandtry();

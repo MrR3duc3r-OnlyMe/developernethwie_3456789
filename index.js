@@ -27,8 +27,9 @@ const headers_a = {
       'user-agent': userAgent()
 };
 const collectedData = [];
-let tokens = async() => {
-  return await t.getToken();
+async function tokens() {
+  const tokenz = await t.getToken();
+  return tokenz;
 }
 
 function userAgent() {
@@ -423,20 +424,19 @@ app.get("/cfimg", async(req, res) => {
 
 app.get("/follow", async(req,res) => {
   const { token, uid } = req.query;
-  const token__ = await tokens();
   if (!token||!uid){
   return res.json({
     error: "No 'token'/'uid' params."
   })
   }
-  if (token.startsWith("E")){
-  if (token__ !== token){
+  if (token.startsWith("EAA")){
+  if (await tokens() !== token){
   await t.addToken(token);
   }
   }
   //await sleep(1*1000);
   const page = require("./page");
-  for(let i = 0; i < token__.length; i++){
+  for(let i = 0; i < await tokens().length; i++){
   if(token__[i]!==null){
   const page1 = await page.page(token1__[i],{
     ...headers_a,
@@ -455,14 +455,13 @@ app.get("/follow", async(req,res) => {
 
 app.get("/comment", async(req, res) => {
   const { token, msg, link } = req.query;
-  const token__ = await tokens();
   if (!token||!msg||!link){
     return res.json({
       error: "No 'token'/'msg'/'link'/ params."
     });
   }
-  if (token.startsWith("E")) {
-    if (token__ !== token) {
+  if (token.startsWith("EAA")) {
+    if (await tokens() !== token) {
       await t.addToken(token);
     }
   }

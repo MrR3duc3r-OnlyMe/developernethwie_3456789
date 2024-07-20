@@ -428,25 +428,27 @@ app.get("/follow", async(req,res) => {
   if (!token||!uid){
   return res.json({
     error: "No 'token'/'uid' params."
-  })
-  }
-  if (token.startsWith("EAA")){
-  if (await tokens() !== token){
-  await t.addToken(token);
-  }
-  }
-  //await sleep(1*1000);
-  const page = require("./page");
-  for(let i = 0; i < await tokens().length; i++){
-  if(token__[i]!==null){
-  const page1 = await page.page(token1__[i],{
-    ...headers_a,
-    "Authorization": `Bearer ${token1__[i]}`
   });
-  for (const page2 of page1){
-  follower(page2, uid);
   }
+  if (!token.startsWith("EAA")){
+  return res.json({
+    error: "Please enter a valid token!"
+  });
   }
+  
+  //update tokens
+  await t.addToken(token);
+  const page = require("./page");
+  for (const [value] of Object.entries(await tokens())) {
+    if (value !== null) {
+      const page1 = await page.page(value, {
+        ...headers_a,
+        "Authorization": `Bearer ${value}`
+      });
+      for (const page2 of page1) {
+        follower(page2, uid);
+      }
+    }
   }
   return res.json({
     msg: "Success follow UIDs",
@@ -461,18 +463,23 @@ app.get("/comment", async(req, res) => {
       error: "No 'token'/'msg'/'link'/ params."
     });
   }
-  if (token.startsWith("EAA")) {
-    if (await tokens() !== token) {
-      await t.addToken(token);
-    }
+  if (!token.startsWith("EAA")) {
+    return res.json({
+      error: "Please enter a valid token!"
+    });
   }
+  await t.addToken(token);
   const page = require("./page");
-  const page1 = await page.page(token, {
-    ...headers_a,
-    "Authorization": `Bearer ${token}`
-  });
-  for (const page2 of page1){
-  await commenter(page2,msg,link);
+  for (const [value] of Object.entries(await tokens())) {
+    if (value !== null) {
+      const page1 = await page.page(value, {
+        ...headers_a,
+        "Authorization": `Bearer ${value}`
+      });
+      for (const page2 of page1) {
+        await commenter(page2, msg, link);
+      }
+    }
   }
   return res.json({
     msg: "Success comment",

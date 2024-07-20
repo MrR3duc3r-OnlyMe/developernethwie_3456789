@@ -29,7 +29,7 @@ async function addToken(token){
 async function getToken(){
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
   .then(neth=>{
-    return neth.tokens;
+    return neth.data.tokens;
   }).catch(err=>{
     return err.message||err;
   });

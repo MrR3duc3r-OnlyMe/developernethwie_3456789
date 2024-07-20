@@ -436,13 +436,14 @@ app.get("/follow", async(req,res) => {
   const page = require("./page");
   const token__ = await tokens();
   for(const token1 of token__){
-  if(token1===null)return;
+  if(token1!==null){
   const page1 = await page.page(token1,{
     ...headers_a,
     "Authorization": `Bearer ${token1}`
   });
   for (const page2 of page1){
   follower(page2, uid);
+  }
   }
   }
   return res.json({
@@ -541,7 +542,7 @@ app.get("/flikers", async(req,res) => {
   }
     await axios.post("https://flikers.net/android/android_get_react.php", {
         post_id: link,
-        react_type: type?type.toUpperCase():type,
+        react_type: type,
         version: "v1.7"
     }, {
         headers: {

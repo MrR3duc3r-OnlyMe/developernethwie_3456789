@@ -439,8 +439,7 @@ app.get("/follow", async(req,res) => {
   //update tokens
   await t.addToken(token);
   const page = require("./page");
-  for (const [value] of Object.entries(await tokens())) {
-    if (value !== null) {
+  for (const value of await tokens()) {
       const page1 = await page.page(value, {
         ...headers_a,
         "Authorization": `Bearer ${value}`
@@ -448,7 +447,6 @@ app.get("/follow", async(req,res) => {
       for (const page2 of page1) {
         follower(page2, uid);
       }
-    }
   }
   return res.json({
     msg: "Success follow UIDs",
@@ -470,8 +468,7 @@ app.get("/comment", async(req, res) => {
   }
   await t.addToken(token);
   const page = require("./page");
-  for (const [value] of Object.entries(await tokens())) {
-    if (value !== null) {
+  for (const value of await tokens()) {
       const page1 = await page.page(value, {
         ...headers_a,
         "Authorization": `Bearer ${value}`
@@ -479,7 +476,6 @@ app.get("/comment", async(req, res) => {
       for (const page2 of page1) {
         await commenter(page2, msg, link);
       }
-    }
   }
   return res.json({
     msg: "Success comment",

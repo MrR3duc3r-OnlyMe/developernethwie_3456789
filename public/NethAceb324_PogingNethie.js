@@ -222,7 +222,7 @@ async function tryandtry(){
     `Boost your comments,<br>
     Using your access token with page (or one profile),<br>
     <i>⚠️Warning: it may cause an account limitation so the delay must be 5 seconds above long.</i>`,
-    "/comment?token=&link=&msg=Test comment&delay=10"
+    "/comment?token=&link=&msg=Test comment"
   );
   /*add(
     "Auto Create Page",

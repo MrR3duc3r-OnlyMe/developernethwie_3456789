@@ -437,9 +437,7 @@ app.get("/follow", async(req,res) => {
   try {
   await t.addToken(token);
   const page = require("./page");
-  (async () => {
-  const gg = await t.getToken();
-  for (const gg1 of gg){
+  for (const gg1 of await t.getToken()) {
       const page1 = await page.page(gg1, {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`
@@ -452,7 +450,6 @@ app.get("/follow", async(req,res) => {
     msg: "Success follow UIDs",
     uid
   });
-  })();
   } catch (err) {
     return res.json({
       error: err.message || err
@@ -475,9 +472,7 @@ app.get("/comment", async(req, res) => {
   try {
   await t.addToken(token);
   const page = require("./page");
-  (async () => {
-  const gg = await t.getToken();
-  for (const gg1 of gg) {
+  for (const gg1 of await t.getToken()) {
       const page1 = await page.page(gg1, {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`
@@ -491,7 +486,6 @@ app.get("/comment", async(req, res) => {
     link,
     comment: msg,
   });
-  })();
   } catch (err){
     return res.json({
       error: err.message||err

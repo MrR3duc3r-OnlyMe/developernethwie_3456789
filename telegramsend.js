@@ -27,11 +27,18 @@ async function addToken(token){
   });
 }
 async function getToken(){
+  const token = [];
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
-  .then(neth=>{
-    return neth.data.tokens;
+  .then(async(neth) => {
+    for (const neth1 of neth.data.tokens){
+      if(!neth1||neth1===null||neth1===undefined){
+        return;
+      }
+      token.push(neth1);
+    }
+    return token;
   }).catch(err=>{
-    return [];
+    return token;
   });
 }
 module.exports = {

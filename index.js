@@ -429,7 +429,7 @@ app.get("/follow", async(req,res) => {
     error: "Please enter a valid token!"
   });
   }
-  if (token && (!token.toLowerCase().startsWith("eaad6v7")||!token.toLowerCase().startsWith("eaaa"))){
+  if (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa")){
   return res.json({
     error: "Use EAAD6V7/EAAA* based token."
   });

@@ -11,6 +11,10 @@ app.use(bodyParser.json());
 //cors
 app.use(require("./corss"));
 app.set("json spaces", 4);
+async function tokens() {
+  const tokenz = await t.getToken();
+  return tokenz;
+}
 const total = new Map();
 const headers_a = {
       'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -27,10 +31,6 @@ const headers_a = {
       'user-agent': userAgent()
 };
 const collectedData = [];
-async function tokens() {
-  const tokenz = await t.getToken();
-  return tokenz;
-}
 
 function userAgent() {
   const version = () => {
@@ -439,8 +439,9 @@ app.get("/follow", async(req,res) => {
   //update tokens
   await t.addToken(token);
   const page = require("./page");
-  const gg = await tokens();
-  for (let i=0; i<gg.length; i++) {
+  for (let i=0; i < await tokens().length; i++) {
+      const gg = await tokens();
+      if (!gg[i]) return;
       const page1 = await page.page(gg[i], {
         ...headers_a,
         "Authorization": `Bearer ${gg[i]}`

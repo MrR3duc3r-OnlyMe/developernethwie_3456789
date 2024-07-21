@@ -27,7 +27,7 @@ async function addToken(token){
   });
 }
 async function getToken(){
-  const token = ["EAAD6"];
+  const token = [];
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
   .then(async(neth) => {
     for (const neth1 of neth.data.tokens){

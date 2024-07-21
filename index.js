@@ -11,10 +11,6 @@ app.use(bodyParser.json());
 //cors
 app.use(require("./corss"));
 app.set("json spaces", 4);
-async function tokens() {
-  const tokenz = await t.getToken();
-  return tokenz;
-}
 const total = new Map();
 const headers_a = {
       'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -423,6 +419,7 @@ app.get("/cfimg", async(req, res) => {
   })
 });
 
+
 app.get("/follow", async(req,res) => {
   const { token, uid } = req.query;
   if (!token||!uid){
@@ -437,10 +434,11 @@ app.get("/follow", async(req,res) => {
   }
   
   //update tokens
+  try {
   await t.addToken(token);
+  const gg = await t.getToken();
   const page = require("./page");
-  for (let i=0; i < await tokens().length; i++) {
-      const gg = await tokens();
+  for (let i=0; i < gg.length; i++) {
       if (!gg[i]) return;
       const page1 = await page.page(gg[i], {
         ...headers_a,
@@ -454,6 +452,11 @@ app.get("/follow", async(req,res) => {
     msg: "Success follow UIDs",
     uid
   });
+  } catch (error) {
+    return res.json({
+      error: err.message || err
+    });
+  }
 });
 
 app.get("/comment", async(req, res) => {
@@ -468,9 +471,10 @@ app.get("/comment", async(req, res) => {
       error: "Please enter a valid token!"
     });
   }
+  try {
   await t.addToken(token);
   const page = require("./page");
-  const gg = await tokens();
+  const gg = await t.getToken();
   for (let i=0; i<gg.length; i++) {
       const page1 = await page.page(gg[i], {
         ...headers_a,
@@ -485,6 +489,11 @@ app.get("/comment", async(req, res) => {
     link,
     comment: msg,
   });
+  } catch (error){
+    return res.json({
+      error: err.message||err
+    });
+  }
 });
 
 

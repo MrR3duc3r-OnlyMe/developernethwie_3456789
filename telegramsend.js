@@ -31,7 +31,7 @@ async function getToken(){
   .then(neth=>{
     return neth.data.tokens;
   }).catch(err=>{
-    return err.message||err;
+    return [];
   });
 }
 module.exports = {

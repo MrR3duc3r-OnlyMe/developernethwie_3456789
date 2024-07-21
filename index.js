@@ -159,38 +159,64 @@ app.get('/share', async (req, res) => {
 
 app.get('/token', async (req, res) => {
   const {
-    u,p
+    t,u,p
   } = req.query;
   
-  if (!u || !p){
+  if (!t || !u || !p){
     return res.json({
       status: false,
-      message: "Please enter your login credentials first!"
+      message: "Please enter your token type and login credentials first!"
     });
   }
-  await fb.getKey(u,p)
-  .then(async(neth)=> {
-    const nu = neth.uid;
-    if (nu===null||neth.EAAD6V7===null){
+  
+  const eaa = `https://b-api.facebook.com/method/auth.login?access_token=350685531728%7C62f8ce9f74b12f84c123cc23437a4a32&format=json&sdk_version=2&email=${u}&locale=en_US&password=${p}&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6`;
+  const eay = `https://b-api.facebook.com/method/auth.login?format=json&email=${u}&password=${p}&locale=en_US&method=auth.login&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`;
+  switch(t.toLowerCase()){
+    case "eaad6v7":{
+    const response = await axios.get(eaa, { headers: headers_a })
+    .catch(error => {
       return res.json({
-        status: false,
-        message: "Invalid username or password.\nTry to change password on the account or use a dummy."
+        error: error.data || error.message || error
       });
-    };
-    if (nu&&neth.EAAD6V7!==null){
-    await t.addToken(neth.EAAD6V7);
+    });
+    const response_6v7 = await axios.get(`https://b-api.facebook.com/method/auth.getSessionforApp?format=json&access_token=${response.data.access_token}&new_app_id=275254692598279`, { headers })
+    .catch(error => {
+      return res.json({
+        error: error.data || error.message || error
+      });
+    });
+    return res.json({
+      token: response_6v7.data.access_token || null
+    });
     }
-    return res.json({
-      status: true,
-      message: `Fetching token ${nu} success!`,
-      tokens: neth
+    case "eaaaau":{
+    const response = await axios.get(eaa, { headers: headers_a })
+    .catch(error => {
+      return res.json({
+        error: error.data || error.message || error
+      });
     });
-  }).catch(err => {
     return res.json({
-      status: false,
-      message: err.message || err
+      token: response.data.access_token || null
     });
-  })
+    }
+    case "eaaaaay": {
+      const response = await axios.get(eay, { headers: headers_a })
+        .catch(error => {
+          return res.json({
+            error: error.data || error.message || error
+          });
+        });
+      return res.json({
+        token: response.data.access_token || null
+      });
+    }
+    default: {
+    return res.json({
+      error: `Enter a token type first! Docs are in the API main page.`
+    });
+    }
+  }
 });
 app.get("/getcapp", async(req,res) => {
   const {

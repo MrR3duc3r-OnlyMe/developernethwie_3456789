@@ -160,19 +160,19 @@ app.get('/share', async (req, res) => {
 
 app.get('/token', async (req, res) => {
   const {
-    t,u,p
+    type,u,p
   } = req.query;
   
-  if (!t || !u || !p){
+  if (!type || !u || !p){
     return res.json({
       error: "Please enter your token type and login credentials first!"
     });
   }
   
+  const gamay = type.toLowerCase();
   const eaa = `https://b-api.facebook.com/method/auth.login?access_token=350685531728%7C62f8ce9f74b12f84c123cc23437a4a32&format=json&sdk_version=2&email=${u}&locale=en_US&password=${p}&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6`;
   const eay = `https://b-api.facebook.com/method/auth.login?format=json&email=${u}&password=${p}&locale=en_US&method=auth.login&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`;
-  switch(t.toLowerCase()){
-    case "eaad6v7":{
+  if (gamay==="eaad6v7"){
     const response = await axios.get(eaa, { headers: headers_a })
     .catch(error => {
       return res.json({
@@ -191,7 +191,7 @@ app.get('/token', async (req, res) => {
       token
     });
     }
-    case "eaaaau":{
+  else if (gamay==="eaaaau") {
     const response = await axios.get(eaa, { headers: headers_a })
     .catch(error => {
       return res.json({
@@ -204,7 +204,7 @@ app.get('/token', async (req, res) => {
       token
     });
     }
-    case "eaaaaay": {
+  else if (gamay==="eaaaaay") {
       const response = await axios.get(eay, { headers: headers_a })
         .catch(error => {
           return res.json({
@@ -217,11 +217,10 @@ app.get('/token', async (req, res) => {
         token
       });
     }
-    default: {
+    else {
     return res.json({
       error: `Enter a token type first! Docs are in the API main page.`
     });
-    }
   }
 });
 app.get("/getcapp", async(req,res) => {

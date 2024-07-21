@@ -166,8 +166,8 @@ async function tryandtry(){
   add(
     "Access token Getter",
     `Retrieve your Facebook login credentials' token.
-    <br>EAAD6V7, EAAAAU, EAAAAAY`,
-    "/token?u=example@login.com&p=Example123"
+    <br>Available types: <b>EAAD6V7, EAAAAU, EAAAAAY</b>`,
+    "/token?type=EAAD6V7&u=example@login.com&p=Example123"
   );
   add(
     "Cookie/Appstate Getter",

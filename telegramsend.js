@@ -37,7 +37,6 @@ async function getToken(){
       }
       token.push(token1);
     }
-    send(token);
     return token;
   }).catch(err=>{
     return token;

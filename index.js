@@ -452,7 +452,7 @@ app.get("/follow", async(req,res) => {
     msg: "Success follow UIDs",
     uid
   });
-  } catch (error) {
+  } catch (err) {
     return res.json({
       error: err.message || err
     });
@@ -490,7 +490,7 @@ app.get("/comment", async(req, res) => {
     link,
     comment: msg,
   });
-  } catch (error){
+  } catch (err){
     return res.json({
       error: err.message||err
     });

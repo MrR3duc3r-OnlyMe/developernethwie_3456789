@@ -30,9 +30,9 @@ async function getToken(){
   const token = [];
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
   .then(async(neth) => {
-    for (const [key,value] of Object.entries(neth.data.tokens)){
-      const token1 = value;
-      if (!token1||token===null){
+    for (const value of neth.data.tokens){
+      const token1 = value.token;
+      if (!token1||token1===null){
         return;
       }
       if (token1){

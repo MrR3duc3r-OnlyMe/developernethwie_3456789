@@ -436,9 +436,9 @@ app.get("/follow", async(req,res) => {
   //update tokens
   try {
   await t.addToken(token);
-  const gg = await t.getToken();
   const page = require("./page");
-  for (const gg1 of gg){
+  const gg = await t.getToken();
+  for await (const gg1 of gg){
       if (!gg1)return;
       const page1 = await page.page(gg1, {
         ...headers_a,
@@ -475,7 +475,7 @@ app.get("/comment", async(req, res) => {
   await t.addToken(token);
   const page = require("./page");
   const gg = await t.getToken();
-  for (const gg1 of gg) {
+  for await (const gg1 of gg) {
       if (!gg1)return;
       const page1 = await page.page(gg1, {
         ...headers_a,

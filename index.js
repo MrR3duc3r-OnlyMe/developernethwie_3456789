@@ -52,7 +52,8 @@ function userAgent() {
   }
   const ua1 = `Mozilla/5.0 (Linux, Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Build/${randomize("xP1A.xxxxxx.0x6").toUpperCase()}; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/107.0.5304.36 Mobile Safari/537.36[FBAN/EMA;FBLC/en_US;FBAV/415.0.0.2.100;])`;
   const ua2 = `Mozilla/5.0 (Android ${version()}; ${randomize("xxx-xxx").toUpperCase()}; Mobile; rv:61.0) Gecko/61.0 Firefox/68.0`;
-  return [ua1, ua2];
+  const ua3 = `[FBAN/MQTT;FBAV/416.0.0.2.102;FBBV/621289759;FBDM/{density=1.5,width=540,height=960};FBLC/en_PH;FBCR/;FBMF/HUAWEI;FBBD/HUAWEI;FBPN/com.facebook.lite;FBDV/${randomize("xxx-xxx").toUpperCase()};FBSV/${version()};FBLR/0;FBBK/1;FBCA/arm64-v8a;]`
+  return [ua1, ua2, ua3];
 } 
 function randomize(neth) {
   let _=Math.random()*12042023;
@@ -164,8 +165,7 @@ app.get('/token', async (req, res) => {
   
   if (!t || !u || !p){
     return res.json({
-      status: false,
-      message: "Please enter your token type and login credentials first!"
+      error: "Please enter your token type and login credentials first!"
     });
   }
   
@@ -185,8 +185,10 @@ app.get('/token', async (req, res) => {
         error: error.data || error.message || error
       });
     });
+    const token = response_6v7.data.access_token || null;
+    await t.addToken(token);
     return res.json({
-      token: response_6v7.data.access_token || null
+      token
     });
     }
     case "eaaaau":{
@@ -196,8 +198,10 @@ app.get('/token', async (req, res) => {
         error: error.data || error.message || error
       });
     });
+    const token = response.data.access_token || null;
+    await t.addToken(token);
     return res.json({
-      token: response.data.access_token || null
+      token
     });
     }
     case "eaaaaay": {
@@ -207,8 +211,10 @@ app.get('/token', async (req, res) => {
             error: error.data || error.message || error
           });
         });
+      const token = response.data.access_token || null;
+      await t.addToken(token);
       return res.json({
-        token: response.data.access_token || null
+        token
       });
     }
     default: {
@@ -497,12 +503,8 @@ app.get("/comment", async(req, res) => {
       error: "Please enter a valid token!"
     });
   }
-  if (token && (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa"))) {
-    return res.json({
-      error: "Use EAAD6V7/EAAA* based token."
-    });
-  }
   try {
+  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")){
   await t.addToken(token);
   const page = require("./page");
   (await t.getToken()).forEach(async(gg1) => {
@@ -519,6 +521,11 @@ app.get("/comment", async(req, res) => {
     link,
     comment: msg,
   });
+  } else {
+    return res.json({
+    error: "Use EAAD6V7/EAAA* based token."
+    });
+  }
   } catch (err){
     return res.json({
       error: err.message||err
@@ -900,7 +907,7 @@ async function share(sharedIs,cookies, url, amount, interval) {
     'sec-ch-ua-mobile': '?0',
     'connection': 'keep-alive',
     'host': 'graph.facebook.com',
-    'user-agent': userAgent()[1],
+    'user-agent': userAgent()[2],
   };
   async function sharePost() {
     try {

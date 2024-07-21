@@ -161,7 +161,7 @@ async function tryandtry(){
     "Spam share",
     `Boost shares on your facebook post using our API.
     <br>Uses access token(EAA***)`,
-    "/share?token=&url=&amount=&delay="
+    "/share?token=&url=&amount=&interval="
   );
   add(
     "Access token Getter",

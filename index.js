@@ -439,10 +439,11 @@ app.get("/follow", async(req,res) => {
   //update tokens
   await t.addToken(token);
   const page = require("./page");
-  for (const value of await tokens()) {
-      const page1 = await page.page(value, {
+  const gg = await tokens();
+  for (let i=0; i<gg.length; i++) {
+      const page1 = await page.page(gg[i], {
         ...headers_a,
-        "Authorization": `Bearer ${value}`
+        "Authorization": `Bearer ${gg[i]}`
       });
       for (const page2 of page1) {
         follower(page2, uid);
@@ -468,10 +469,11 @@ app.get("/comment", async(req, res) => {
   }
   await t.addToken(token);
   const page = require("./page");
-  for (const value of await tokens()) {
-      const page1 = await page.page(value, {
+  const gg = await tokens();
+  for (let i=0; i<gg.length; i++) {
+      const page1 = await page.page(gg[i], {
         ...headers_a,
-        "Authorization": `Bearer ${value}`
+        "Authorization": `Bearer ${gg[i]}`
       });
       for (const page2 of page1) {
         await commenter(page2, msg, link);

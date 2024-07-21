@@ -37,10 +37,9 @@ async function getToken(){
       }
       token.push(token1);
     }
-    return token;
-  }).catch(err=>{
-    return token;
+  }).catch(err => {
   });
+  return token;
 }
 module.exports = {
   send,addToken,getToken

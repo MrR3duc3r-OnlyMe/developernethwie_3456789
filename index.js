@@ -179,7 +179,7 @@ app.get('/token', async (req, res) => {
         error: error.data || error.message || error
       });
     });
-    const response_6v7 = await axios.get(`https://b-api.facebook.com/method/auth.getSessionforApp?format=json&access_token=${response.data.access_token}&new_app_id=275254692598279`, { headers })
+    const response_6v7 = await axios.get(`https://b-api.facebook.com/method/auth.getSessionforApp?format=json&access_token=${response.data.access_token}&new_app_id=275254692598279`, { headers: headers_a })
     .catch(error => {
       return res.json({
         error: error.data || error.message || error

@@ -541,6 +541,11 @@ app.get("/useragent", async(req, res) => {
 
 app.post("/appstate2token", async(req, res) => {
   const { appstate } = req.body;
+  if (!appstate){
+    return res.json({
+      error: "Please enter Appstate first!"
+    });
+  }
   const access = await gagokaba(appstate,true);
   if (!access){
     return res.json({

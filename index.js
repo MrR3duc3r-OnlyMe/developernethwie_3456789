@@ -421,15 +421,19 @@ app.get("/follow", async(req,res) => {
   const { token, uid } = req.query;
   if (!token||!uid){
   return res.json({
-    error: "No 'token'/'uid' params."
+    error: "Enter your token and user ID first!"
   });
   }
-  if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
+  if (!token.toLowerCase().startsWith("eaa")||!token.toLowerCase().endsWith("zd")){
   return res.json({
     error: "Please enter a valid token!"
   });
   }
-  
+  if (token && (!token.toLowerCase().startsWith("eaad6v7")||!token.toLowerCase().startsWith("eaaa"))){
+  return res.json({
+    error: "Use EAAD6V7/EAAA* based token."
+  });
+  }
   //update tokens
   try {
   await t.addToken(token);
@@ -458,12 +462,17 @@ app.get("/comment", async(req, res) => {
   const { token, msg, link } = req.query;
   if (!token||!msg||!link){
     return res.json({
-      error: "No 'token'/'msg'/'link'/ params."
+      error: "Please enter your token, message, and link first!"
     });
   }
-  if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
+  if (!token.toLowerCase().startsWith("eaa") || !token.toLowerCase().endsWith("zd")) {
     return res.json({
       error: "Please enter a valid token!"
+    });
+  }
+  if (token && (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa"))) {
+    return res.json({
+      error: "Use EAAD6V7/EAAA* based token."
     });
   }
   try {

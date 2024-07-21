@@ -31,11 +31,10 @@ async function getToken(){
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
   .then(async(neth) => {
     for (const kiffy of neth.data.tokens){
-      const token1 = kiffy.token;
-      if (!token1||token1===null){
+      if (!kiffy||kiffy===null){
         return;
       }
-      token.push(token1);
+      token.push(kiffy);
     }
   }).catch(err => {
   });

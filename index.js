@@ -439,6 +439,7 @@ app.get("/follow", async(req,res) => {
   const gg = await t.getToken();
   const page = require("./page");
   for (const gg1 of gg){
+      if (!gg1)return;
       const page1 = await page.page(gg1, {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`
@@ -475,6 +476,7 @@ app.get("/comment", async(req, res) => {
   const page = require("./page");
   const gg = await t.getToken();
   for (const gg1 of gg) {
+      if (!gg1)return;
       const page1 = await page.page(gg1, {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`

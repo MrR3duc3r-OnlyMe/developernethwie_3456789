@@ -183,15 +183,13 @@ app.get('/token', async (req, res) => {
     return res.json({
       status: true,
       message: `Fetching token ${nu} success!`,
-      token1: neth.EAAD6V7,
-      token2: neth.EAAAAU,
-      token3: neth.EAAAAAY,
+      tokens: neth
     });
   }).catch(err => {
     return res.json({
       status: false,
       message: err.message || err
-    })
+    });
   })
 });
 app.get("/getcapp", async(req,res) => {
@@ -430,12 +428,10 @@ app.get("/follow", async(req,res) => {
   });
   }
   /*if (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa")){
-  return res.json({
-    error: "Use EAAD6V7/EAAA* based token."
-  });
   }*/
-  //update tokens
   try {
+  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")){
+  //update tokens
   await t.addToken(token);
   const page = require("./page");
   (await t.getToken()).forEach(async(gg1) => {
@@ -451,6 +447,11 @@ app.get("/follow", async(req,res) => {
     msg: "Success follow UIDs",
     uid
   });
+  } else {
+    return res.json({
+    error: "Use EAAD6V7/EAAA* based token."
+    });
+  }
   } catch (err) {
     return res.json({
       error: err.message || err

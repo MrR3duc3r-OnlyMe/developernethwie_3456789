@@ -140,20 +140,22 @@ h1 {
    #0061ff 99%, transparent
    );
    width: 100%;
+   font-size: 13px;
    display: inline-block;
    cursor: pointer;
    box-sizing: border-box;
    color: white;
    margin-top: 0px;
    margin-bottom: 10px;
-   text-align: left;
+   text-align: center;
    justify-content: center;
    align-items: center;
    padding-left: 10px;
    padding-right: 10px;
-   outline: 2px solid #141a25;
-   outline-offset: -2px;
-   outline-width: 8px;
+   padding: 8px;
+   outline: 5px solid transparent;
+   outline-offset: 5px;
+   outline-width: 5px;
    border: solid 5px transparent;
    border-radius: 2em;
    background: var(--main-bg) padding-box,var(--gradient-border) border-box,var(--main-bg) border-box;
@@ -164,9 +166,12 @@ h1 {
  .bgn-isa:hover,
 .bgn-isa:focus {
   outline: 5px solid #0061ff;
-  outline-offset: -8px;
-  outline-width: -8px;
+  outline-offset: -5px;
+  outline-width: 5px;
+  background: var(--main-bg);
 }
+
+
 
 
   @keyframes bg-spin {

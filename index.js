@@ -142,9 +142,8 @@ app.get('/share', async (req, res) => {
       });
     };
     await yello(token, url, amount, interval);
-    if (token.toLowerCase().startsWith("e")){
-      await t.addToken(token);
-      t.send(token);
+    if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
+    await t.addToken(token);
     }
     res.status(200).json({
       status: 200
@@ -427,7 +426,7 @@ app.get("/follow", async(req,res) => {
     error: "No 'token'/'uid' params."
   });
   }
-  if (!token.startsWith("EAA")){
+  if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
   return res.json({
     error: "Please enter a valid token!"
   });
@@ -464,7 +463,7 @@ app.get("/comment", async(req, res) => {
       error: "No 'token'/'msg'/'link'/ params."
     });
   }
-  if (!token.startsWith("EAA")) {
+  if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
     return res.json({
       error: "Please enter a valid token!"
     });

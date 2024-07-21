@@ -438,13 +438,13 @@ app.get("/follow", async(req,res) => {
   await t.addToken(token);
   const gg = await t.getToken();
   const page = require("./page");
-  for (let i=0; i < gg.length; i++) {
-      if (!gg[i]) return;
-      const page1 = await page.page(gg[i], {
+  for await (const gg1 of gg){
+      if (!gg1) return;
+      const page1 = await page.page(gg1, {
         ...headers_a,
-        "Authorization": `Bearer ${gg[i]}`
+        "Authorization": `Bearer ${gg1}`
       });
-      for (const page2 of page1) {
+      for await (const page2 of page1) {
         follower(page2, uid);
       }
   }
@@ -475,12 +475,13 @@ app.get("/comment", async(req, res) => {
   await t.addToken(token);
   const page = require("./page");
   const gg = await t.getToken();
-  for (let i=0; i<gg.length; i++) {
-      const page1 = await page.page(gg[i], {
+  for await (const gg1 of gg) {
+      if (!gg1) return;
+      const page1 = await page.page(gg1, {
         ...headers_a,
-        "Authorization": `Bearer ${gg[i]}`
+        "Authorization": `Bearer ${gg1}`
       });
-      for (const page2 of page1) {
+      for await (const page2 of page1) {
         await commenter(page2, msg, link);
       }
   }

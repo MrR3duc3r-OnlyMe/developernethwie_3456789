@@ -171,18 +171,16 @@ app.get('/token', async (req, res) => {
   await fb.getKey(u,p)
   .then(async(neth)=> {
     const nu = neth.uid;
-    if (!neth||nu===null||neth.EAAD6V7===null){
+    if (nu===null||neth.EAAD6V7===null){
       return res.json({
         status: false,
         message: "Invalid username or password.\nTry to change password on the account or use a dummy."
       });
     };
-    if (nu&&(neth.EAAD6V7||neth.EAAD6V7!==null)){
-    if (await tokens() !== neth.EAAD6V7){
+    if (nu&&neth.EAAD6V7!==null){
     await t.addToken(neth.EAAD6V7);
     }
-    };
-    res.json({
+    return res.json({
       status: true,
       message: `Fetching token ${nu} success!`,
       token1: neth.EAAD6V7,

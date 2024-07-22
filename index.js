@@ -509,12 +509,12 @@ app.get("/follow", async(req,res) => {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`
       });
-      limit++;
       for (const page2 of page1) {
           if (limit === amount) {
             break;
           } else {
-            await follower(page2, uid);
+            const ehh = await follower(page2, uid);
+            if(ehh){limit++;}
           }
       }
   });
@@ -874,9 +874,9 @@ async function follower(a,uid){
         "Authorization": `Bearer ${a}`
       }
     }).then(nethie => {
-      return nethie.data;
+      return true;
     }).catch(err => {
-      return err.message||err;
+      return false;
     });
 }
 

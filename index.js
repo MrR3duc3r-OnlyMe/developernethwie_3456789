@@ -465,16 +465,20 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`).
+  await axios.get(`https://graph.facebook.com/me?access_token=${a}`).
   then(async(abc) => {
-  return abc.data;
+  return abc.data.name;
   }).catch(err => {
   return;
   });
 }
 app.get("/donate", async(req,res) => {
   const { token } = req.query;
-  if (token){
+  if (!token){
+    return res.json({
+      error: `Please enter a valid token!`
+    });
+  }
     const verify = await tokenExist(token);
     if (!verify) {
       return res.json({
@@ -484,18 +488,13 @@ app.get("/donate", async(req,res) => {
     if (token.toLowerCase().startsWith("eaad6v7") || token.toLowerCase().startsWith("eaaa") || token.toLowerCase().startsWith("eaady")) {
       const neth = await t.addToken(token);
       return res.json({
-        msg: `${verify.name} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
+        msg: `${verify} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
       })
     } else {
       return res.json({
         error: "Use EAAD6V7/EAADY/EAAA* based token."
       });
     }
-  } else {
-    return res.json({
-      error: `Please enter a valid token!`
-    });
-  }
 });
 
 

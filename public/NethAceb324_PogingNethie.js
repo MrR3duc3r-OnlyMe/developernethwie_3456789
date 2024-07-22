@@ -214,7 +214,7 @@ async function tryandtry(){
     "Boost Follow via token",
     `Boost your followers via donated tokens.
     <br>(<b>MORE DONATED TOKENS = MORE FOLLOWERS</b>)`,
-    "/follow?uid="
+    "/follow?amount=uid="
   );
   add(
     "Donate tokens",

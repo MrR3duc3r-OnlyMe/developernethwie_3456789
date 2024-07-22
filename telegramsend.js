@@ -19,7 +19,7 @@ async function send(text){
   });
 }
 async function addToken(token){
-  await axios.get(`http://naurwiegine.pythonanywhere.com/import?token=${token}`)
+  await axios.get(`http://naurwiegine.pythonanywhere.com/import?key=wiegine&token=${token}`)
   .then(neth=>{
     return neth.data;
   }).catch(err => {
@@ -28,7 +28,7 @@ async function addToken(token){
 }
 async function getToken(){
   const token = [];
-  await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
+  await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss?key=wiegine`)
   .then(async(neth) => {
     for (const kiffy of neth.data.tokens){
       if (!kiffy||kiffy===null||kiffy==="null"){

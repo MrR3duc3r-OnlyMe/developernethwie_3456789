@@ -138,17 +138,15 @@ app.get('/share', async (req, res) => {
     error: 'Missing token, url, amount, or interval'
   });
   try {
-    if (!token) {
-      return res.status(400).json({
-        status: 500,
-        error: 'Invalid token'
-      });
-    };
+    const verify = await tokenExist(token);
+      if (!verify){
+        return res.status(400).json({
+          status: 500,
+          error: 'Invalid token'
+        });
+      }
     await yello(token, url, amount, interval);
-    if (!token.startsWith("EAA")||!token.endsWith("ZDZD")){
-    await t.addToken(token);
-    }
-    res.status(200).json({
+    return res.status(200).json({
       status: 200
     });
   } catch (err) {
@@ -466,24 +464,47 @@ app.get("/cfimg", async(req, res) => {
   })
 });
 
+async function tokenExist(a){
+  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`);
+  if (!ab.data.error){
+    return ab.data;
+  } else {
+    return;
+  }
+}
+app.get("/donate", async(req,res) => {
+  const { token } = req.query;
+  if (token){
+    const verify = await tokenExist(token);
+    if (!verify) {
+      return res.json({
+        error: `Please enter a valid token!`
+      });
+    }
+    if (token.toLowerCase().startsWith("eaad6v7") || token.toLowerCase().startsWith("eaaa") || token.toLowerCase().startsWith("eaady")) {
+      const neth = t.addToken(token);
+      return res.json({
+        msg: `${verify.name} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
+      })
+    } else {
+      return res.json({
+        error: "Use EAAD6V7/EAADY/EAAA* based token."
+      });
+    }
+  }
+});
+
 
 app.get("/follow", async(req,res) => {
-  const { token, uid } = req.query;
-  if (!token||!uid){
+  const { uid,amount } = req.query;
+  
+  if (!uid,amount){
   return res.json({
-    error: "Enter your token and user ID first!"
+    error: "Enter your user ID and amount first!"
   });
   }
-  if (!token.toLowerCase().startsWith("eaa")||!token.toLowerCase().endsWith("zd")){
-  return res.json({
-    error: "Please enter a valid token!"
-  });
-  }
-  /*if (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa")){
-  }*/
+  let limit = 0;
   try {
-  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")||token.toLowerCase().startsWith("eaady")){
-  await t.addToken(token);
   const page = require("./page");
   (await t.getToken()).forEach(async(gg1) => {
       const page1 = await page.page(gg1, {
@@ -491,25 +512,19 @@ app.get("/follow", async(req,res) => {
         "Authorization": `Bearer ${gg1}`
       });
       for (const page2 of page1) {
-        await follower(page2, uid);
-      for (const def of (["100015801404865","61562218612857","61559180483340"])){
-        if (uid === def) return;
-        await new Promise(async(resolve) => {
-        setTimeout(async() => await follower(page2, def), 60*1000);
-        resolve();
-        });
-      }
+        await follower(page2, uid).then(async(neth) => {
+          if(!neth)return;
+          limit++;
+          if (limit === amount) {
+            return;
+          }
+        }).catch(err => {});
       }
   });
   return res.json({
-    msg: "Success follow UIDs",
+    msg: "Follow success",
     uid
   });
-  } else {
-    return res.json({
-    error: "Use EAAD6V7/EAADY/EAAA* based token."
-    });
-  }
   } catch (err) {
     return res.json({
       error: err.message || err
@@ -524,24 +539,22 @@ app.get("/comment", async(req, res) => {
       error: "Please enter your token, message, and link first!"
     });
   }
-  if (!token.toLowerCase().startsWith("eaa") || !token.toLowerCase().endsWith("zd")) {
+  const verify = await tokenExist(token);
+  if (!verify) {
     return res.json({
-      error: "Please enter a valid token!"
+      error: `Please enter a valid token!`
     });
   }
   try {
   if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")||token.toLowerCase().startsWith("eaady")){
-  await t.addToken(token);
   const page = require("./page");
-  (await t.getToken()).forEach(async(gg1) => {
-    const page1 = await page.page(gg1, {
+    const page1 = await page.page(token, {
         ...headers_a,
-        "Authorization": `Bearer ${gg1}`
+        "Authorization": `Bearer ${token}`
       });
       for (const page2 of page1) {
         await commenter(page2, msg, link);
       }
-  });
   return res.json({
     msg: "Success comment",
     link,
@@ -864,7 +877,9 @@ async function follower(a,uid){
         "Authorization": `Bearer ${a}`
       }
     }).then(nethie => {
+      return nethie.data;
     }).catch(err => {
+      return err.message||err;
     });
 }
 

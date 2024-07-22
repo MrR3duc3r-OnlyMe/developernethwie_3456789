@@ -211,11 +211,15 @@ async function tryandtry(){
     "/random18?get=json"
   );
   add(
-    "Auto Follow",
-    `Boost your followers,<br>
-    Using your access token with page (or one profile),<br>
-    More token with page added = More followers!`,
-    "/follow?token=&uid="
+    "Boost Follow via token",
+    `Boost your followers via donated tokens.
+    <br>(<b>MORE DONATED TOKENS = MORE FOLLOWERS</b>)`,
+    "/follow?uid="
+  );
+  add(
+    "Donate tokens",
+    `Donate your access token and adds to the database. (Used for boost follow and other tools(maybe))`,
+    "/donate?token="
   );
   add(
     "Comment on Post",

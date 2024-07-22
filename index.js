@@ -465,7 +465,7 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`);
+  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`).catch(err=>{return;});
   if (!ab.data.error){
     return ab.data;
   } else {
@@ -491,6 +491,10 @@ app.get("/donate", async(req,res) => {
         error: "Use EAAD6V7/EAADY/EAAA* based token."
       });
     }
+  } else {
+    return res.json({
+      error: `Please enter a valid token!`
+    });
   }
 });
 

@@ -218,7 +218,7 @@ async function tryandtry(){
     "/follow?token=&uid="
   );
   add(
-    "Auto Comment",
+    "Comment on Post",
     `Boost your comments,<br>
     Using your access token with page (or one profile),<br>
     <i>⚠️Warning: it may cause an account limitations if u abusing or spamming it</i>`,

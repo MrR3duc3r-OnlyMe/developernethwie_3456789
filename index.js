@@ -470,7 +470,7 @@ async function tokenExist(a){
   }).then(async(abc) => {
   return abc.data.name;
   }).catch(err => {
-  return;
+  return null;
   });
 }
 app.get("/donate", async(req,res) => {

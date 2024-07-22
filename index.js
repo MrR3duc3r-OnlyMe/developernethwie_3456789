@@ -486,9 +486,9 @@ app.get("/donate", async(req,res) => {
         error: `Token invalid, token not verified as valid token.`
       });
     }
-    const neth = await t.addToken(token);
+    await t.addToken(token);
     return res.json({
-      msg: `— Token: [redacted]\n— Account: ${ver} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
+      msg: `— Token: [redacted]\n— Account: ${ver} has been added successfully.`
     });
 });
 

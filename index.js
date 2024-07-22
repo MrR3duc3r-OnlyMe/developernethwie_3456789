@@ -481,7 +481,7 @@ app.get("/donate", async(req,res) => {
     });
   }
     const ver = await tokenExist(token);
-    if (!ver) {
+    if (ver === null) {
       return res.json({
         error: `Token invalid, token not verified as valid token.`
       });

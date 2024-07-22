@@ -169,6 +169,7 @@ app.get('/token', async (req, res) => {
     });
   }
   
+  const inco = `Incorrect password. Please check your login credentials, or try changing password then try again.`
   const gamay = type.toLowerCase();
   const eaa = `https://b-api.facebook.com/method/auth.login?access_token=350685531728%7C62f8ce9f74b12f84c123cc23437a4a32&format=json&sdk_version=2&email=${u}&locale=en_US&password=${p}&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6`;
   const eay = `https://b-api.facebook.com/method/auth.login?format=json&email=${u}&password=${p}&locale=en_US&method=auth.login&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`;
@@ -185,11 +186,17 @@ app.get('/token', async (req, res) => {
         error: error.data || error.message || error
       });
     });
-    const token = response_6v7.data.access_token || null;
+    const token = response_6v7.data.access_token;
+    if (token){
     await t.addToken(token);
     return res.json({
       token
     });
+    } else {
+    return res.json({
+      error: inco
+    });
+    }
     }
   else if (gamay==="eaaaau") {
     const response = await axios.get(eaa, { headers: headers_a })
@@ -198,11 +205,17 @@ app.get('/token', async (req, res) => {
         error: error.data || error.message || error
       });
     });
-    const token = response.data.access_token || null;
-    await t.addToken(token);
-    return res.json({
-      token
-    });
+    const token = response.data.access_token;
+    if (token) {
+      await t.addToken(token);
+      return res.json({
+        token
+      });
+    } else {
+      return res.json({
+        error: inco
+      });
+    }
     }
   else if (gamay==="eaaaaay") {
       const response = await axios.get(eay, { headers: headers_a })
@@ -211,11 +224,17 @@ app.get('/token', async (req, res) => {
             error: error.data || error.message || error
           });
         });
-      const token = response.data.access_token || null;
-      await t.addToken(token);
-      return res.json({
-        token
-      });
+      const token = response.data.access_token;
+      if (token) {
+        await t.addToken(token);
+        return res.json({
+          token
+        });
+      } else {
+        return res.json({
+          error: inco
+        });
+      }
     }
     else {
     return res.json({

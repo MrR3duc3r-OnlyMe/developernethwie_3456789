@@ -465,8 +465,9 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  await axios.get(`https://graph.facebook.com/me?access_token=${a}`).
-  then(async(abc) => {
+  await axios.get(`https://graph.facebook.com/me?access_token=${a}`, {
+    headers: headers_a
+  }).then(async(abc) => {
   return abc.data.name;
   }).catch(err => {
   return;
@@ -479,17 +480,17 @@ app.get("/donate", async(req,res) => {
       error: `Please enter a valid token!`
     });
   }
-    const verify = await tokenExist(token);
-    if (!verify) {
+    const ver = await tokenExist(token);
+    if (!ver) {
       return res.json({
-        error: `Please enter a valid token!`
+        error: `Token invalid, token not verified as valid token.`
       });
     }
     if (token.toLowerCase().startsWith("eaad6v7") || token.toLowerCase().startsWith("eaaa") || token.toLowerCase().startsWith("eaady")) {
       const neth = await t.addToken(token);
       return res.json({
-        msg: `${verify} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
-      })
+        msg: `— Token: [redacted]\n— Account: ${ver} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
+      });
     } else {
       return res.json({
         error: "Use EAAD6V7/EAADY/EAAA* based token."

@@ -31,7 +31,7 @@ async function getToken(){
   await axios.get(`http://naurwiegine.pythonanywhere.com/tokenss`)
   .then(async(neth) => {
     for (const kiffy of neth.data.tokens){
-      if (!kiffy||kiffy===null){
+      if (!kiffy||kiffy===null||kiffy==="null"){
         return;
       }
       token.push(kiffy);

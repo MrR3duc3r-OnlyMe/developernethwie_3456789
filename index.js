@@ -465,12 +465,16 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`).catch(err=>{return;});
-  if (!ab.data.error){
-    return ab.data;
+  const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`).
+  then(async(abc) => {
+  if (!abc.data.error) {
+    return abc.data;
   } else {
     return;
   }
+  }).catch(err => {
+  return;
+  });
 }
 app.get("/donate", async(req,res) => {
   const { token } = req.query;

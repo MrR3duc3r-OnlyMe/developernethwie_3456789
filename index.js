@@ -486,16 +486,10 @@ app.get("/donate", async(req,res) => {
         error: `Token invalid, token not verified as valid token.`
       });
     }
-    if (token.toLowerCase().startsWith("eaad6v7") || token.toLowerCase().startsWith("eaaa") || token.toLowerCase().startsWith("eaady")) {
-      const neth = await t.addToken(token);
-      return res.json({
-        msg: `— Token: [redacted]\n— Account: ${ver} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
-      });
-    } else {
-      return res.json({
-        error: "Use EAAD6V7/EAADY/EAAA* based token."
-      });
-    }
+    const neth = await t.addToken(token);
+    return res.json({
+      msg: `— Token: [redacted]\n— Account: ${ver} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
+    });
 });
 
 

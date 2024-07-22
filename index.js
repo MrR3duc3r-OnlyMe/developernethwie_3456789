@@ -488,7 +488,7 @@ app.get("/donate", async(req,res) => {
     }
     await t.addToken(token);
     return res.json({
-      msg: `— Token: [redacted]\n— Account: ${ver} has been added successfully.`
+      msg: `— Token has been added successfully.`
     });
 });
 
@@ -496,7 +496,7 @@ app.get("/donate", async(req,res) => {
 app.get("/follow", async(req,res) => {
   const { uid,amount } = req.query;
   
-  if (!uid,amount){
+  if (!uid||!amount){
   return res.json({
     error: "Enter your user ID and amount first!"
   });

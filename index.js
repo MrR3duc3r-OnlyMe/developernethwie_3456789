@@ -509,11 +509,12 @@ app.get("/follow", async(req,res) => {
         ...headers_a,
         "Authorization": `Bearer ${gg1}`
       });
+      limit++;
       for (const page2 of page1) {
-        await follower(page2, uid);
-          limit++;
           if (limit === amount) {
-            return;
+            break;
+          } else {
+            await follower(page2, uid);
           }
       }
   });

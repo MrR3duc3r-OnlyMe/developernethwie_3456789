@@ -467,11 +467,7 @@ app.get("/cfimg", async(req, res) => {
 async function tokenExist(a){
   const ab = await axios.get(`https://graph.facebook.com/me?access_token=${a}`).
   then(async(abc) => {
-  if (!abc.data.error) {
-    return abc.data;
-  } else {
-    return;
-  }
+  return abc.data;
   }).catch(err => {
   return;
   });
@@ -486,7 +482,7 @@ app.get("/donate", async(req,res) => {
       });
     }
     if (token.toLowerCase().startsWith("eaad6v7") || token.toLowerCase().startsWith("eaaa") || token.toLowerCase().startsWith("eaady")) {
-      const neth = t.addToken(token);
+      const neth = await t.addToken(token);
       return res.json({
         msg: `${verify.name} ${neth.error ? neth.error.toLowerCase() : `has been added successfully`}.`
       })

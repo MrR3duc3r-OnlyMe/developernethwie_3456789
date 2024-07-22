@@ -510,13 +510,11 @@ app.get("/follow", async(req,res) => {
         "Authorization": `Bearer ${gg1}`
       });
       for (const page2 of page1) {
-        await follower(page2, uid).then(async(neth) => {
-          if(!neth)return;
+        await follower(page2, uid);
           limit++;
           if (limit === amount) {
             return;
           }
-        }).catch(err => {});
       }
   });
   return res.json({

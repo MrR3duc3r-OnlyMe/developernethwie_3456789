@@ -465,14 +465,12 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  let b = null;
-  await axios.get(`https://graph.facebook.com/me?access_token=${a}`)
-  .then(abc => {
-  b = abc.data ? abc.data : null;
-  }).catch(err => {
-  b = null;
+  const exist = await axios.get(`https://graph.facebook.com/me?access_token=${a}`)
+  .catch(err => {
+  return null;
   });
-  return b;
+  const data = exist.data;
+  return data ? data : null;
 }
 app.get("/donate", async(req,res) => {
   const { token } = req.query;

@@ -472,6 +472,7 @@ async function tokenExist(a){
   }).catch(err => {
   return null;
   });
+  return null;
 }
 app.get("/donate", async(req,res) => {
   const { token } = req.query;

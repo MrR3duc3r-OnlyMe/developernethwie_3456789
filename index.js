@@ -465,14 +465,12 @@ app.get("/cfimg", async(req, res) => {
 });
 
 async function tokenExist(a){
-  await axios.get(`https://graph.facebook.com/me?access_token=${a}`, {
-    headers: headers_a
-  }).then(async(abc) => {
-  return true;
+  await axios.get(`https://graph.facebook.com/me?access_token=${a}`)
+  .then(abc => {
+  return abc.data ? abc.data : null;
   }).catch(err => {
   return null;
   });
-  return null;
 }
 app.get("/donate", async(req,res) => {
   const { token } = req.query;
@@ -489,7 +487,7 @@ app.get("/donate", async(req,res) => {
     }
     await t.addToken(token);
     return res.json({
-      msg: `— Token has been added successfully.`
+      msg: `Token has been added successfully.`
     });
 });
 

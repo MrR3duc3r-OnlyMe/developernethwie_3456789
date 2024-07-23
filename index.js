@@ -468,7 +468,7 @@ async function tokenExist(a){
   await axios.get(`https://graph.facebook.com/me?access_token=${a}`, {
     headers: headers_a
   }).then(async(abc) => {
-  return abc.data.name;
+  return true;
   }).catch(err => {
   return null;
   });
